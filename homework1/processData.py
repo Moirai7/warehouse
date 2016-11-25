@@ -9,13 +9,7 @@ from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import classification_report
 from sklearn.neural_network import MLPClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
-from sklearn.gaussian_process import GaussianProcessClassifier
-from sklearn.gaussian_process.kernels import RBF
 from sklearn.naive_bayes import GaussianNB
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
-
 
 def ReadCSV(filename):
 	return pd.read_csv(filename, sep=', ', engine='python', header=None, names=['age','workclass','fnlwgt','education','edu_num','marital_statu','occupation','relationship','race','sex','cap_gain','cap_loss','hours','country','income'], index_col=False)
@@ -142,69 +136,28 @@ def Preprocessing(filename):
 
 def Train(X_train,y_train):
 	X_train = StandardScaler().fit_transform(X_train)
-	classifiers = [KNeighborsClassifier(3),SVC(kernel="linear", C=0.025),SVC(gamma=2, C=1),GaussianProcessClassifier(1.0 * RBF(1.0), warm_start=True),DecisionTreeClassifier(max_depth=5),RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),MLPClassifier(alpha=1),AdaBoostClassifier(),GaussianNB(),QuadraticDiscriminantAnalysis()]
+	classifiers = [LogisticRegression(),AdaBoostClassifier(),MLPClassifier(alpha=1),GaussianNB(),DecisionTreeClassifier(max_depth=10),RandomForestClassifier(max_depth=10, n_estimators=10, max_features=1)]
 	for clf in classifiers:
+		print 'fit##################'
 		clf.fit(X_train, y_train)
-		print clf
 	return classifiers
 
-def Test(X_train,y_train,X_test,y_test,classifiers):
-	X_train = StandardScaler().fit_transform(X_train)
+def Test(X_test,y_test,classifiers):
 	X_test = StandardScaler().fit_transform(X_test)
-	
-	###################
-	cm = plt.cm.RdBu
-	cm_bright = ListedColormap(['#FF0000', '#0000FF'])
-	X = np.concatenate((X_train,X_test))
-	x_min, x_max = X[:, 0].min() - .5, X[:, 0].max() + .5
-	y_min, y_max = X[:, 1].min() - .5, X[:, 1].max() + .5
-	xx, yy = np.meshgrid(np.arange(x_min, x_max, .02),np.arange(y_min, y_max, .02))
-	
-	fig,axes = plt.subplots(1, len(classifiers) + 1, figsize=(12, 14))
-	axes[0].set_title("Input data")
-	axes[0].scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright)
-	axes[0].scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=cm_bright, alpha=0.6)
-	axes[0].set_xlim(xx.min(), xx.max())
-	axes[0].set_ylim(yy.min(), yy.max())
-	axes[0].set_xticks(())
-	axes[0].set_yticks(())
-	names = ["Nearest Neighbors", "Linear SVM", "RBF SVM", "Gaussian Process","Decision Tree", "Random Forest", "Neural Net", "AdaBoost","Naive Bayes", "QDA"]
-	i = 1
-	####################
-
-	for name,clf in zip(names,classifiers):
+	for clf in classifiers:
 		print 'predict#############################'
 		y_pred = clf.predict(X_test)
 		print clf
 		print(classification_report(y_test, y_pred))
 
-        	####################
-        	score = clf.score(X_test, y_test)
-        	if hasattr(clf, "decision_function"):
-        		Z = clf.decision_function(np.c_[xx.ravel(), yy.ravel()])
-        	else:
-        		Z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, 1]
-        	Z = Z.reshape(xx.shape)
-    		axes[i].set_title(name)
-		axes[i].contourf(xx, yy, Z, cmap=cm, alpha=.8)
-        	axes[i].scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm_bright)
-        	axes[i].scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=cm_bright, alpha=0.6)
-        	axes[i].set_xlim(xx.min(), xx.max())
-        	axes[i].set_ylim(yy.min(), yy.max())
-        	axes[i].set_xticks(())
-        	axes[i].set_yticks(())
-        	axes[i].text(xx.max() - .3, yy.min() + .3, ('%.2f' % score).lstrip('0'),size=15, horizontalalignment='right')
-        	i += 1
-        	####################
-	plt.tight_layout()
-	plt.show()
-
 if __name__ == '__main__':
-	train = Preprocessing('data/adult.data.txt')
 	features = 'age|cap_gain|cap_loss|country_*|edu_num|fnlwgt|hours|marital_*|occupation_*|race_*|relationship_*|sex_*|workclass_*'
+
+	train = Preprocessing('data/adult.data.txt')
 	print 'train##################'
 	classifiers = Train(train.filter(regex=features),train['_income'])
+
 	test = Preprocessing('data/adult.test.txt')
-	print 'test##################'
 	test['country_Holand-Netherlands'] = 0
-	Test(train.filter(regex=features),train['_income'],test.filter(regex=features),test['_income'],classifiers)
+	print 'test##################'
+	Test(test.filter(regex=features),test['_income'],classifiers)

@@ -1,0 +1,87 @@
+#############################
+#############################
+#############################
+train##################
+fit##################
+fit##################
+fit##################
+fit##################
+fit##################
+fit##################
+#############################
+#############################
+#############################
+test##################
+predict#############################
+LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False)
+             precision    recall  f1-score   support
+
+          0       0.86      0.94      0.90     12435
+          1       0.73      0.52      0.61      3846
+
+avg / total       0.83      0.84      0.83     16281
+
+predict#############################
+AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+             precision    recall  f1-score   support
+
+          0       0.87      0.95      0.91     12435
+          1       0.77      0.55      0.64      3846
+
+avg / total       0.85      0.86      0.85     16281
+
+predict#############################
+MLPClassifier(activation='relu', alpha=1, batch_size='auto', beta_1=0.9,
+       beta_2=0.999, early_stopping=False, epsilon=1e-08,
+       hidden_layer_sizes=(100,), learning_rate='constant',
+       learning_rate_init=0.001, max_iter=200, momentum=0.9,
+       nesterovs_momentum=True, power_t=0.5, random_state=None,
+       shuffle=True, solver='adam', tol=0.0001, validation_fraction=0.1,
+       verbose=False, warm_start=False)
+             precision    recall  f1-score   support
+
+          0       0.87      0.94      0.91     12435
+          1       0.75      0.54      0.63      3846
+
+avg / total       0.84      0.85      0.84     16281
+
+predict#############################
+GaussianNB(priors=None)
+             precision    recall  f1-score   support
+
+          0       0.76      1.00      0.87     12435
+          1       0.00      0.00      0.00      3846
+
+avg / total       0.58      0.76      0.66     16281
+
+predict#############################
+DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=10,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_split=1e-07, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')
+             precision    recall  f1-score   support
+
+          0       0.87      0.94      0.91     12435
+          1       0.75      0.56      0.64      3846
+
+avg / total       0.84      0.85      0.84     16281
+
+predict#############################
+RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+            max_depth=10, max_features=1, max_leaf_nodes=None,
+            min_impurity_split=1e-07, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            n_estimators=10, n_jobs=1, oob_score=False, random_state=None,
+            verbose=0, warm_start=False)
+             precision    recall  f1-score   support
+
+          0       0.79      1.00      0.88     12435
+          1       0.98      0.16      0.27      3846
+
+avg / total       0.84      0.80      0.74     16281
+

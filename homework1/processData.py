@@ -1,6 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
 import numpy as np
 from sklearn import preprocessing
 from sklearn.preprocessing import StandardScaler
@@ -94,7 +93,7 @@ def plotData(data):
 	plt.ylabel("people numbers")
 
 	print '#############################'
-	fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(12, 14))
+	fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(12, 9))
 	axes[0][0].violinplot([data[data._income==0]['edu_num'],data[data._income==1]['edu_num']],showmeans=False,showmedians=True)
 	axes[0][0].set_title('edu_num')
 	axes[0][1].violinplot([data[data._income==0]['fnlwgt'],data[data._income==1]['fnlwgt']],showmeans=False,showmedians=True)

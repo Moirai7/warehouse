@@ -4,14 +4,15 @@ import matplotlib.pyplot as plt
 from scipy.signal import butter, lfilter, freqz
 from scipy.signal import argrelmin, argrelmax
 import scipy.stats.stats as st
-
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report,accuracy_score
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
+pd.options.mode.chained_assignment = None
+
 
 def ReadCSV(filename):
 	return pd.read_csv(filename,header=None,names=['sample','x','y','z','label'],index_col=False,dtype={'sample':np.int64})
@@ -85,16 +86,16 @@ def butter_highpass_filter(data, cutoff, fs, order=5):
 	return y
 
 def ProcessData(data):
-	#data = data[data.label != 0]
-	data['m'] = np.sqrt(data['x']**2 + data['y']**2 + data['z']**2)
+	data = data[data.label != 0]
+	data.loc[:,'m'] = np.sqrt(data['x']**2 + data['y']**2 + data['z']**2)
 
 	order = 7
 	fs = 52.0
 	cutoff = 1.
 
 	for c in ['x', 'y', 'z', 'm']:
-		data[c+'l'] = butter_lowpass_filter(data[c], cutoff, fs, order)
-		data[c+'h'] = butter_highpass_filter(data[c], cutoff, fs, order)
+		data.loc[:,c+'l'] = butter_lowpass_filter(data[c], cutoff, fs, order)
+		data.loc[:,c+'h'] = butter_highpass_filter(data[c], cutoff, fs, order)
 	return data
 
 def Preprocessing(filename,axes=False,index=1):
@@ -127,67 +128,127 @@ def min_max_mean(series):
 	else:
 		for j, arg in enumerate(maxs):
 			min_max_sum += series[arg] - series[mins[j]]
-	return min_max_sum/float(min(len(mins), len(maxs)))
+	if min(len(mins), len(maxs)) == 0:
+		return (0,0,0)
+	return (min_max_sum/float(min(len(mins), len(maxs))),max(maxs)-min(mins),len(mins)+len(maxs))
 
-def extract_features(data, y, num_windows):
+def extract_features(data, y, window_len):#num_windows):
 	i = 0
-	#num_windows = len(data)/(window_len/2)
-	window_len = len(data)/(num_windows/2)
+	#window_len = len(data)/(num_windows/2)
+	num_windows = len(data)/(window_len/2)
+	#print 'num_windows = 208, window_len = ' , str(len(data)/(208/2))
+	#print 'now num_windows = '+ str(num_windows)+', window_len = '+str(window_len)
 	features = []
 	targets = []
 	for n in range(num_windows):
 		win = data[i:i+window_len]
-		target = int(y[i:i+window_len].mode())
+		try:
+			target = int(y[i:i+window_len].mode())
+		except:
+			target = int(y[i:i+window_len])
 		targets.append(target)
 		for c in data.columns:
 			s = np.array(win[c])
 			rms_val = rms(s)
-			min_max = min_max_mean(s)
+			(min_max,peak,peaknum) = min_max_mean(s)
 			mean = s.mean()
 			std = s.std()
-			#skew = st.skew(s)
-			#kurtosis = st.kurtosis(s)
-			#new_features = [rms_val, min_max, mean, std, skew, kurtosis]
-			new_features = [rms_val, min_max, mean, std]
+			skew = st.skew(s)
+			kurtosis = st.kurtosis(s)
+			coefficients = std/mean
+			logpower = np.log10((s**2)).sum()
+			new_features = [rms_val, min_max, mean, std, skew, kurtosis,peak,peaknum,coefficients,logpower]
+			#new_features = [rms_val, min_max, mean, std]
 			features.append(new_features)
 		i += window_len/2
 	features = np.array(features)
-	features.shape = num_windows, 48#72
+	features.shape = num_windows, 120#48#72
 	targets = np.array(targets)
 	return features, targets
 
 def Train(X_train,y_train):
-	classifiers = [LogisticRegression(C=1, penalty='l1'),LogisticRegression(C=1, penalty='l2'),KNeighborsClassifier(),RandomForestClassifier(n_estimators=20, class_weight='balanced'),SVC(kernel="linear", C=0.025),DecisionTreeClassifier(max_depth=5),AdaBoostClassifier(),GaussianNB()]
+	#classifiers = [KNeighborsClassifier()]
+	classifiers = [LogisticRegression(C=1, penalty='l2'),KNeighborsClassifier(),RandomForestClassifier(n_estimators=20, class_weight='balanced'),AdaBoostClassifier(),GaussianNB(),DecisionTreeClassifier(max_depth=5)]
 	for clf in classifiers:
 		print 'fit##################'
 		clf.fit(X_train, y_train)
 	return classifiers
 
-def Test(classifiers,X_test,y_test):
+def Test1(classifiers,X_test,y_test):
 	for clf in classifiers:
 		print 'predict#############################'
 		print clf
 		y_pred = clf.predict(X_test)
+		print pd.Series(y_test).mode()
+		print pd.Series(y_pred).mode()
+		print y_pred
+		print accuracy_score(y_test,y_pred)
 		print classification_report(y_test, y_pred)
+		try:
+			if int(pd.Series(y_pred).mode()) == int(pd.Series(y_test).mode()):
+				return 1
+		except:
+			pass
+	return 0
 
-def Task1(classifiers,test):
-	feature = test.drop(['sample', 'label'], axis=1)
-	target = test['label']
-	feature, target = extract_features(feature, target, 416)
-	Test(classifiers,features,targets)
+def Test2(classifiers,X_test,y_test,index):
+	for clf in classifiers:
+		print 'predict#############################'
+		print clf
+		y_pred = clf.predict(X_test)
+		print index
+		print y_pred
+		print y_test
+		print accuracy_score(y_test,y_pred)
+		print classification_report(y_test, y_pred)
+		point = np.where(y_test == index)[0][0]
+		ppred = np.where(y_pred == index)[0][0] if len(np.where(y_pred == index)[0])!=0 else 0
+		print ppred
+		print point
+		print np.where(y_test == index)
+		print np.where(y_pred == index)
+		if point == ppred:
+			print 'point '+str(point+2)+' is the turn point!'
+			return 1
+	return 0
 
-if __name__ == '__main__':
-	paint = False
-	if paint is not False:
-		fig, paint = plt.subplots(nrows=3, ncols=4, figsize=(20, 9))
-
+def Task1():
 	features = []
 	targets = []
 	for i in xrange(1,13):
-		train = Preprocessing('data/'+str(i)+'.csv',paint,i)
-		feature = train.drop(['sample', 'label'], axis=1) 
-		target = train['label'] 
-		feature, target = extract_features(feature, target, 416)
+		trains = Preprocessing('data/'+str(i)+'.csv',False,i)
+		for c in xrange(1,8):
+			train = trains[trains['label']==c]
+			feature = train.drop(['sample', 'label'], axis=1)
+			target = train['label']
+			feature, target = extract_features(feature, target, 10)
+			if len(features) == 0:
+				features = feature
+				targets = target
+			else :
+				features = np.append(features,feature,axis=0)
+				targets = np.append(targets,target)
+	classifiers = Train(features,targets)
+	
+	for i in xrange(13,16):
+		tests = Preprocessing('data/'+str(i)+'.csv',False,i)
+		trues = 0
+		for c in xrange(1,8):
+			test = tests[tests['label']==c]
+			feature = test.drop(['sample', 'label'], axis=1)
+			target = test['label']
+			feature, target = extract_features(feature, target, 10)
+			trues += Test1(classifiers,feature,target)
+		print 'result:' +str(trues/8.)
+
+def Task3():
+	features = []
+	targets = []
+        for i in xrange(1,13):
+                trains = Preprocessing('data/'+str(i)+'.csv',False,i)
+		feature = trains.drop(['sample', 'label'], axis=1)
+		target = trains['label']
+		feature, target = extract_features(feature, target, 3)
 		if len(features) == 0:
 			features = feature
 			targets = target
@@ -196,21 +257,25 @@ if __name__ == '__main__':
 			targets = np.append(targets,target)
 	classifiers = Train(features,targets)
 	
-	features = []
-	targets = []
 	for i in xrange(13,16):
-		test = Preprocessing('data/'+str(i)+'.csv',paint,i)
-		feature = test.drop(['sample', 'label'], axis=1)
-		target = test['label']
-		feature, target = extract_features(feature, target, 416)
-		if len(features) == 0:
-			features = feature
-			targets = target
-		else:
-			features = np.append(features,feature,axis=0)
-			targets = np.append(targets,target)
-	Test(classifiers,features,targets)
+		tests = Preprocessing('data/'+str(i)+'.csv',False,i)
+		trues = 0
+		feature = tests.drop(['sample', 'label'], axis=1)
+		target = tests['label']
+		feature, target = extract_features(feature, target, 3)
+		trues += Test1(classifiers,feature,target,c)
+		print 'result:' +str(trues/8.)
+	
 
-	if paint is not False :
+if __name__ == '__main__':
+	paint = False
+	if paint is not False:
+		fig, paint = plt.subplots(nrows=3, ncols=4, figsize=(20, 9))
+		for i in xrange(1,13):
+			Preprocessing('data/'+str(i)+'.csv',paint,i)
 		print 'painting ... This may take a while, please wait'
 		plt.show()
+
+	#Task1()
+	#Task2()	
+	Task3()	

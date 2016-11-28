@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report,accuracy_score
 from sklearn.neural_network import MLPClassifier
 from sklearn.naive_bayes import GaussianNB
 
@@ -147,7 +147,8 @@ def Test(X_test,y_test,classifiers):
 		print 'predict#############################'
 		y_pred = clf.predict(X_test)
 		print clf
-		print(classification_report(y_test, y_pred))
+		print accuracy_score(y_test,y_pred)
+		print classification_report(y_test, y_pred)
 
 if __name__ == '__main__':
 	features = 'age|cap_gain|cap_loss|country_*|edu_num|fnlwgt|hours|marital_*|occupation_*|race_*|relationship_*|sex_*|workclass_*'

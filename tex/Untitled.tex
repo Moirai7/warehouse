@@ -1,0 +1,179 @@
+\documentclass[11pt]{ctexart}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+
+\floatname{algorithm}{算法}
+\renewcommand{\algorithmicrequire}{\textbf{输入:}}
+\renewcommand{\algorithmicensure}{\textbf{输出:}}
+
+\begin{document}
+    \begin{algorithm}
+        \caption{特征抽取}
+        \begin{algorithmic}[1] %每行显示行号
+            \Require $data$时间序列对应的数据，$label$时间序列对应的标签，$window\_len$窗口长度
+            \Ensure 时间序列抽取的特征矩阵和标签
+            \Function {extract\_features}{$data, label, window\_len$}
+                \State $features \gets 0$
+                \State $targets \gets 0$
+                \State $i \gets 0$
+                \State $num\_windows \gets len(data)/(window\_len/2)$
+                \For{$i = 0 \to num\_windows$}
+                     \State $target  \gets int(label[i\to i+window\_len].mode())$
+                     \State $targets \gets targets\cup target$
+                     \For{$c = 0 \to data.columns$}
+                     	\State $features \gets features \cup $ \Call{FEATURIZE}{$data[i\to i+window\_len]$}
+                     \EndFor
+                     \State $i \gets i+window\_len/2$
+                \EndFor
+                \State \Return{$features,targets$}
+            \EndFunction    
+        \end{algorithmic}
+    \end{algorithm}
+    
+        \begin{algorithm}
+    	\caption{FEATURIZE}
+	\begin{algorithmic}[1] %每行显示行号
+	   \State $rms\_val = \sqrt{\frac{1}{n}\sum_{i=1}^{n}x_i^2}$
+	   \State $min\_max\_mean = \frac{1}{len}\sum_{i=1}^{len}|max_i-min_i|$ 其中 $len=\min{(max , min)}$ ；$min$和$max$为序列中的极大值和极小值点
+	   \State $peak = \max max - \min min$
+	   \State $peaknum = len(max)+len(min)$
+	   \State $mean = \frac{1}{n}\sum_{i=1}^{n}x_i$
+	   \State $standard deviation = \sqrt{\frac{1}{n}\sum_{i=1}^{n}x_i-mean}$
+	   \State $coefficients of variation = \frac{standard deviation}{mean}$
+	   \State $Skewness = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i-mean)^3}{(\frac{1}{n}\sum_{i=1}^{n}(x_i-mean)^2)^{\frac{3}{2}}}$
+	   \State $Kurtosis = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i-mean)^4}{(\frac{1}{n}\sum_{i=1}^{n}(x_i-mean)^2)^{3}}-3$
+	   \State $log-energy = \frac{1}{n}\sum_{i=1}^{n}log(x_i^2) $
+	\end{algorithmic}
+    \end{algorithm}
+    
+    \begin{algorithm}
+        \caption{单一活动类别识别}
+        \begin{algorithmic}[1] %每行显示行号
+            \Function {Task1}{}
+            	\State $features \gets 0$
+                \State $targets \gets 0$
+            	\For{$i = 0 \to 12$}
+                		\State $data \gets data \cup $\Call{Preprocessing}{i}
+			\For{$i = 1 \to 7$}
+				\State $d \gets data[label=i]$
+				\State $feature,target$ = \Call{extract\_features}{$d[x,y...], d[label], 10$}
+				\State $features \gets features \cup feature$
+				\State $targets \gets targets \cup target$
+			\EndFor
+		\EndFor
+		\State $classifiers = Train(features,targets)$
+		\For{$i = 13 \to 15$}
+                		\State $data \gets data \cup $\Call{Preprocessing}{i}
+			\For{$i = 1 \to 7$}
+				\State $feature,target$ = \Call{extract\_features}{$data[label==i][x,y...], data[label=i][label], 10$}
+				\State \Call{Test}{classifiers,feature,target}
+			\EndFor
+		\EndFor
+            \EndFunction    
+        \end{algorithmic}
+    \end{algorithm}
+
+\begin{algorithm}
+        \caption{多活动类别识别}
+        \begin{algorithmic}[1] %每行显示行号
+            \Function {Task3}{}
+	        \State $features \gets 0$
+                \State $targets \gets 0$
+            	\For{$i = 0 \to 12$}
+                		\State $data \gets data \cup $\Call{Preprocessing}{i}
+				\State $feature,target$ = \Call{extract\_features}{$data[x,y...], data[label], 3$}
+				\State $features \gets features \cup feature$
+				\State $targets \gets targets \cup target$
+		\EndFor
+		\State $classifiers = Train(features,targets)$
+		\For{$i = 13 \to 15$}
+                		\State $data \gets data \cup $\Call{Preprocessing}{i}
+				\State $feature,target$ = \Call{extract\_features}{$data[x,y...], data[label], 3$}
+				\State \Call{Test'}{classifiers,feature,target}
+		\EndFor
+            \EndFunction    
+        \end{algorithmic}
+    \end{algorithm}
+    
+    \begin{algorithm}
+        \caption{多活动类别识别}
+        \begin{algorithmic}[1] %每行显示行号
+            \Function {Task3}{}
+	        \State $features \gets 0$
+                \State $targets \gets 0$
+            	\For{$i = 0 \to 12$}
+                		\State $data \gets data \cup $\Call{Preprocessing}{i}
+				\State $feature,target$ = \Call{extract\_features}{$data[x,y...], data[label], 3$}
+				\State $features \gets features \cup feature$
+				\State $targets \gets targets \cup target$
+		\EndFor
+		\State $classifiers = Train(features,targets)$
+		\For{$i = 13 \to 15$}
+                		\State $data \gets data \cup $\Call{Preprocessing}{i}
+				\State $feature,target$ = \Call{extract\_features}{$data[x,y...], data[label], 3$}
+				\State \Call{Test'}{classifiers,feature,target}
+		\EndFor
+            \EndFunction    
+        \end{algorithmic}
+    \end{algorithm}
+    
+  \begin{algorithm}
+        \caption{梯度下降法}
+        \begin{algorithmic}[1] %每行显示行号
+            \Require $data$数据矩阵，$label$标签
+            \Ensure 权重
+            \Function {gradAscent}{$data, label$}
+                \State $alpha \gets 0.001$
+                \State $maxCycles \gets 500$
+                \State $weights \gets ones((n,1))$
+                \For{$k = 0 \to maxCycles$}
+                     \State $h  \gets $\Call{sigmoid}{$data*weights$}
+                     \State $error \gets (label - h)$
+                     \State $weights \gets weights+alpha*data*error$
+                \EndFor
+                \State \Return{$weights$}
+            \EndFunction    
+        \end{algorithmic}
+    \end{algorithm}
+
+\begin{algorithm}
+        \caption{决策树}
+        \begin{algorithmic}[1] %每行显示行号
+            \Require $data$数据矩阵,$Target\_attribute$要预测的目标属性，$Attributes$除目标属性外供学习到的决策树测试属性列表
+            \Ensure $root$一颗能正确分类给定data的决策树
+            \Function {DecisionTreeClassifier}{$data,label$}
+                \State 创建$root$节点
+                \If{所有data都为正}
+                		\State \Return{ label = +的单节点树root}
+		\EndIf
+		\If{所有data都为负}
+                		\State \Return{ label = -的单节点树root}
+		\EndIf
+                \If{attributes为空}
+                		\State \Return{ 单节点树root，$label=data$中最普遍的$Target\_attributes$}
+		\EndIf
+		\State $A \gets attributes$中分类$data$能力最好的属性
+		\State root的决策属性$\gets A$
+		\For{$i \to len(A)$}
+			\State $a\gets A[i]$
+			\State 在root下加一个新的分支对应测试A=a
+			\State 令data(a)为data中满足A属性值为a的子集
+			\State 在这个新分支下一个子树\Call{DecisionTreeClassifier}{$data(a),Target\_attribute,Attributes-{A}$}
+		\EndFor
+                \State \Return{$root$}
+            \EndFunction    
+        \end{algorithmic}
+    \end{algorithm}
+    
+$$Precision = \frac{TP}{(TP+FP)}$$
+
+$$Recall = \frac{TP}{(TP+FN)}$$
+
+$$F1-Score = \frac{2*Precision*Recall}{(Recall+Precision)}$$
+
+$$Accuracy = \frac{TP}{(TP+FP+FN+TN)}$$
+
+\end{document}

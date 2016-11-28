@@ -221,7 +221,7 @@ def Task1():
 			train = trains[trains['label']==c]
 			feature = train.drop(['sample', 'label'], axis=1)
 			target = train['label']
-			feature, target = extract_features(feature, target, 10)
+			feature, target = extract_features(feature, target, 600)
 			if len(features) == 0:
 				features = feature
 				targets = target
@@ -237,7 +237,7 @@ def Task1():
 			test = tests[tests['label']==c]
 			feature = test.drop(['sample', 'label'], axis=1)
 			target = test['label']
-			feature, target = extract_features(feature, target, 10)
+			feature, target = extract_features(feature, target, 600)
 			trues += Test1(classifiers,feature,target)
 		print 'result:' +str(trues/8.)
 
@@ -276,6 +276,6 @@ if __name__ == '__main__':
 		print 'painting ... This may take a while, please wait'
 		plt.show()
 
-	#Task1()
+	Task1()
 	#Task2()	
-	Task3()	
+	#Task3()	

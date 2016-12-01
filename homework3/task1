@@ -82,89 +82,30 @@ dtype: int64
 0.0
              precision    recall  f1-score   support
 
-          2       0.00      0.00      0.00         5
-          4       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
+          2       0.00  [?1049h[?1h=[?12;25h[?12l[?25h[27m[m[H[2J[?25l[1;1H[38;5;81mimport[m pandas [93mas[m pd
+[38;5;81mimport[m numpy [93mas[m np
+[38;5;81mimport[m matplotlib.pyplot [93mas[m plt
+[38;5;81mfrom[m scipy.signal [38;5;81mimport[m butter, lfilter, freqz
+[38;5;81mfrom[m scipy.signal [38;5;81mimport[m argrelmin, argrelmax
+[38;5;81mimport[m scipy.stats.stats [93mas[m st
+[38;5;81mfrom[m sklearn.linear_model [38;5;81mimport[m LogisticRegression
+[38;5;81mfrom[m sklearn.ensemble [38;5;81mimport[m RandomForestClassifier,AdaBoostClassifier
+[38;5;81mfrom[m sklearn.neighbors [38;5;81mimport[m KNeighborsClassifier
+[38;5;81mfrom[m sklearn.metrics [38;5;81mimport[m classification_report
+[38;5;81mfrom[m sklearn.svm [38;5;81mimport[m SVC
+[38;5;81mfrom[m sklearn.tree [38;5;81mimport[m DecisionTreeClassifier
+[38;5;81mfrom[m sklearn.naive_bayes [38;5;81mimport[m GaussianNB
 
-avg / total       0.00      0.00      0.00         5
+[93mdef[m [1m[96mReadCSV[m(filename):[16;9H[93mreturn[m pd.read_csv(filename,header=[1m[96mNone[m,names=[[95m'sample'[m,[95m'x'[m,[95m'y'[m,[95m'z'[m,[95m'label'[m],indd[17;1Hex_col=[1m[96mFalse[m,dtype={[95m'sample'[m:np.int64})
 
-predict#############################
-RandomForestClassifier(bootstrap=True, class_weight='balanced',
-            criterion='gini', max_depth=None, max_features='auto',
-            max_leaf_nodes=None, min_impurity_split=1e-07,
-            min_samples_leaf=1, min_samples_split=2,
-            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
-            oob_score=False, random_state=None, verbose=0,
-            warm_start=False)
-0    2
-dtype: int64
-0    7
-dtype: int64
-[3 7 7 7 7]
-0.0
-             precision    recall  f1-score   support
+[93mdef[m [1m[96mShowData[m(data):[20;9Hdata.info()[21;9H[96m#print data.head()[m[22;9H[1m[96mprint[m data.drop_duplicates([[95m'label'[m])[[95m'label'[m][23;9H[96m# check for missing data[m[24;9Hnan_flag = [1m[96mFalse[m[25;9H[93mfor[m c [93min[m data.columns:[26;17H[93mif[m [1m[96many[m(data[c] == np.nan):[27;25H[1m[96mprint[m c, [95m'contains NaNs'[m[28;25Hnan_flag = [1m[96mTrue[m[29;9H[93mif[m [93mnot[m nan_flag:[30;17H[1m[96mprint[m [95m'No missing values.'[m[31;9HPlotData_before(data)
 
-          2       0.00      0.00      0.00         5
-          3       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00         5
-
-predict#############################
-AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
-          learning_rate=1.0, n_estimators=50, random_state=None)
-0    2
-dtype: int64
-0    7
-dtype: int64
-[7 7 7 7 2]
-0.2
-             precision    recall  f1-score   support
-
-          2       1.00      0.20      0.33         5
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.20      0.33         5
-
-predict#############################
-GaussianNB(priors=None)
-0    2
-dtype: int64
-0    7
-dtype: int64
-[7 7 7 5 5]
-0.0
-             precision    recall  f1-score   support
-
-          2       0.00      0.00      0.00         5
-          5       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00         5
-
-predict#############################
-DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
-            max_features=None, max_leaf_nodes=None,
-            min_impurity_split=1e-07, min_samples_leaf=1,
-            min_samples_split=2, min_weight_fraction_leaf=0.0,
-            presort=False, random_state=None, splitter='best')
-0    2
-dtype: int64
-0    7
-dtype: int64
-[7 7 7 7 7]
-0.0
-             precision    recall  f1-score   support
-
-          2       0.00      0.00      0.00         5
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00         5
-
-predict#############################
-LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
-          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
-          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
+[93mdef[m [1m[96mPlotData_before[m(data):[34;9H_fig,_axes = plt.subplots(nrows=[95m7[m, ncols=[95m3[m, figsize=([95m20[m, [95m9[m))[35;9Hname = [[95m'x'[m,[95m'y'[m,[95m'z'[m][36;9H[93mfor[m n [93min[m [1m[96mxrange[m([95m0[m,[95m3[m):[37;17H[93mfor[m c [93min[m [1m[96mxrange[m([95m1[m, [95m8[m):[38;25H_axes[c-[95m1[m][n].plot(data[data[[95m'label'[m]==c][name[n]], linewidth=[95m.55[m[39;1H)[40;25H_axes[c-[95m1[m][n].ticklabel_format(style=[95m'sci'[m, axis=[95m'x'[m, scilimits==[41;1H([95m0[m,[95m0[m))[42;9H[93mpass[1;1H[?12l[?25h[m[43;1H
+[38;5;121mW11: Warning: File "processData.py" has changed since editing started[m
+[38;5;121mSee ":help W11" for more info.[m
+[38;5;121m[O]K, (L)oad File: [m[?1l>[?1049lVim: Caught deadly signal HUP
+Vim: Finished.
+[43;1Htate=None, solver='liblinear', tol=0.0001,
           verbose=0, warm_start=False)
 0    3
 dtype: int64

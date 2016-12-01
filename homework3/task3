@@ -1,0 +1,357 @@
+#############################
+data/1.csv
+#############################
+data/2.csv
+#############################
+data/3.csv
+#############################
+data/4.csv
+#############################
+data/5.csv
+#############################
+data/6.csv
+#############################
+data/7.csv
+#############################
+data/8.csv
+#############################
+data/9.csv
+#############################
+data/10.csv
+#############################
+data/11.csv
+#############################
+data/12.csv
+fit##################
+fit##################
+fit##################
+fit##################
+fit##################
+fit##################
+#############################
+data/13.csv
+predict#############################
+LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False)
+0.399586104952
+             precision    recall  f1-score   support
+
+          1       0.12      0.02      0.04     18279
+          2       0.00      0.00      0.00      1650
+          3       0.00      0.00      0.00      8220
+          4       0.69      0.72      0.70     17650
+          5       0.00      0.00      0.00      3400
+          6       0.00      0.00      0.00      1201
+          7       0.31      0.81      0.44     17250
+
+avg / total       0.29      0.40      0.31     67650
+
+predict#############################
+KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights='uniform')
+0.243355506282
+             precision    recall  f1-score   support
+
+          1       0.10      0.08      0.09     18279
+          2       0.00      0.03      0.01      1650
+          3       0.03      0.04      0.04      8220
+          4       0.75      0.52      0.61     17650
+          5       0.28      0.25      0.26      3400
+          6       0.02      0.00      0.01      1201
+          7       0.28      0.27      0.28     17250
+
+avg / total       0.31      0.24      0.27     67650
+
+predict#############################
+RandomForestClassifier(bootstrap=True, class_weight='balanced',
+            criterion='gini', max_depth=None, max_features='auto',
+            max_leaf_nodes=None, min_impurity_split=1e-07,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+0.34022172949
+             precision    recall  f1-score   support
+
+          1       0.11      0.07      0.09     18279
+          2       0.01      0.03      0.01      1650
+          3       0.03      0.03      0.03      8220
+          4       0.76      0.76      0.76     17650
+          5       0.50      0.33      0.40      3400
+          6       0.00      0.00      0.00      1201
+          7       0.34      0.40      0.37     17250
+
+avg / total       0.34      0.34      0.34     67650
+
+predict#############################
+AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+0.457516629712
+             precision    recall  f1-score   support
+
+          1       0.18      0.08      0.11     18279
+          2       0.04      0.00      0.00      1650
+          3       0.01      0.00      0.00      8220
+          4       0.70      0.85      0.77     17650
+          5       0.48      0.08      0.14      3400
+          6       0.00      0.00      0.00      1201
+          7       0.39      0.82      0.53     17250
+
+avg / total       0.36      0.46      0.37     67650
+
+predict#############################
+GaussianNB(priors=None)
+0.430317812269
+             precision    recall  f1-score   support
+
+          1       0.96      0.01      0.03     18279
+          2       0.03      0.00      0.00      1650
+          3       0.14      0.00      0.00      8220
+          4       0.71      0.75      0.73     17650
+          5       0.20      0.25      0.23      3400
+          6       0.04      0.16      0.06      1201
+          7       0.37      0.84      0.52     17250
+
+avg / total       0.57      0.43      0.34     67650
+
+predict#############################
+DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_split=1e-07, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')
+0.447509238729
+             precision    recall  f1-score   support
+
+          1       0.18      0.11      0.14     18279
+          2       0.00      0.00      0.00      1650
+          3       0.00      0.00      0.00      8220
+          4       0.68      0.80      0.74     17650
+          5       0.23      0.02      0.03      3400
+          6       0.00      0.00      0.00      1201
+          7       0.40      0.81      0.54     17250
+
+avg / total       0.34      0.45      0.37     67650
+
+result:0.457516629712
+#############################
+data/14.csv
+predict#############################
+LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False)
+0.647708871662
+             precision    recall  f1-score   support
+
+          1       0.68      0.93      0.78     52874
+          2       0.00      0.00      0.00       505
+          3       0.00      0.00      0.00     12785
+          4       0.86      0.82      0.84     29315
+          5       0.00      0.00      0.00      3620
+          6       0.00      0.00      0.00      1500
+          7       0.14      0.14      0.14     15501
+
+avg / total       0.54      0.65      0.59    116100
+
+predict#############################
+KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights='uniform')
+0.410921619294
+             precision    recall  f1-score   support
+
+          1       0.89      0.46      0.61     52874
+          2       0.00      0.01      0.00       505
+          3       0.37      0.26      0.30     12785
+          4       0.84      0.61      0.71     29315
+          5       0.16      0.06      0.09      3620
+          6       0.03      0.07      0.04      1500
+          7       0.05      0.11      0.07     15501
+
+avg / total       0.67      0.41      0.50    116100
+
+predict#############################
+RandomForestClassifier(bootstrap=True, class_weight='balanced',
+            criterion='gini', max_depth=None, max_features='auto',
+            max_leaf_nodes=None, min_impurity_split=1e-07,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+0.447157622739
+             precision    recall  f1-score   support
+
+          1       0.88      0.41      0.56     52874
+          2       0.00      0.00      0.00       505
+          3       0.37      0.13      0.19     12785
+          4       0.83      0.93      0.88     29315
+          5       0.57      0.06      0.12      3620
+          6       0.01      0.00      0.00      1500
+          7       0.03      0.08      0.05     15501
+
+avg / total       0.67      0.45      0.51    116100
+
+predict#############################
+AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+0.76834625323
+             precision    recall  f1-score   support
+
+          1       0.90      0.93      0.91     52874
+          2       0.00      0.00      0.00       505
+          3       0.23      0.00      0.01     12785
+          4       0.85      0.86      0.85     29315
+          5       0.84      0.01      0.02      3620
+          6       0.00      0.00      0.00      1500
+          7       0.48      0.96      0.64     15501
+
+avg / total       0.74      0.77      0.72    116100
+
+predict#############################
+GaussianNB(priors=None)
+0.34233419466
+             precision    recall  f1-score   support
+
+          1       0.85      0.00      0.00     52874
+          2       0.00      0.00      0.00       505
+          3       0.06      0.00      0.00     12785
+          4       0.85      0.82      0.84     29315
+          5       0.58      0.16      0.25      3620
+          6       0.04      0.11      0.05      1500
+          7       0.19      0.96      0.31     15501
+
+avg / total       0.65      0.34      0.26    116100
+
+predict#############################
+DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_split=1e-07, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')
+0.772153316107
+             precision    recall  f1-score   support
+
+          1       0.92      0.95      0.93     52874
+          2       0.00      0.00      0.00       505
+          3       0.00      0.00      0.00     12785
+          4       0.85      0.83      0.84     29315
+          5       0.93      0.01      0.02      3620
+          6       0.00      0.00      0.00      1500
+          7       0.46      0.96      0.62     15501
+
+avg / total       0.72      0.77      0.72    116100
+
+result:0.772153316107
+#############################
+data/15.csv
+predict#############################
+LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False)
+0.345362318841
+             precision    recall  f1-score   support
+
+          1       0.76      0.23      0.35     51599
+          2       0.00      0.00      0.00      4680
+          3       0.00      0.00      0.00      7910
+          4       0.50      0.67      0.57     17510
+          5       0.00      0.00      0.00      3300
+          6       0.00      0.00      0.00      1000
+          7       0.19      0.70      0.30     17501
+
+avg / total       0.50      0.35      0.32    103500
+
+predict#############################
+KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights='uniform')
+0.43090821256
+             precision    recall  f1-score   support
+
+          1       0.65      0.60      0.63     51599
+          2       0.00      0.00      0.00      4680
+          3       0.11      0.13      0.12      7910
+          4       0.52      0.61      0.56     17510
+          5       0.03      0.01      0.01      3300
+          6       0.02      0.03      0.02      1000
+          7       0.09      0.11      0.10     17501
+
+avg / total       0.44      0.43      0.43    103500
+
+predict#############################
+RandomForestClassifier(bootstrap=True, class_weight='balanced',
+            criterion='gini', max_depth=None, max_features='auto',
+            max_leaf_nodes=None, min_impurity_split=1e-07,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+0.463536231884
+             precision    recall  f1-score   support
+
+          1       0.70      0.62      0.65     51599
+          2       0.01      0.00      0.00      4680
+          3       0.12      0.10      0.11      7910
+          4       0.49      0.70      0.58     17510
+          5       0.01      0.00      0.00      3300
+          6       0.01      0.01      0.01      1000
+          7       0.12      0.18      0.15     17501
+
+avg / total       0.46      0.46      0.46    103500
+
+predict#############################
+AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+0.355391304348
+             precision    recall  f1-score   support
+
+          1       0.67      0.27      0.38     51599
+          2       0.19      0.00      0.00      4680
+          3       0.06      0.05      0.05      7910
+          4       0.48      0.69      0.57     17510
+          5       0.00      0.00      0.00      3300
+          6       0.06      0.01      0.02      1000
+          7       0.21      0.60      0.31     17501
+
+avg / total       0.47      0.36      0.34    103500
+
+predict#############################
+GaussianNB(priors=None)
+0.227400966184
+             precision    recall  f1-score   support
+
+          1       0.55      0.00      0.01     51599
+          2       0.00      0.00      0.00      4680
+          3       0.04      0.00      0.00      7910
+          4       0.51      0.62      0.56     17510
+          5       0.05      0.10      0.07      3300
+          6       0.01      0.04      0.01      1000
+          7       0.17      0.69      0.28     17501
+
+avg / total       0.39      0.23      0.15    103500
+
+predict#############################
+DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_split=1e-07, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')
+0.370801932367
+             precision    recall  f1-score   support
+
+          1       0.55      0.46      0.50     51599
+          2       0.00      0.00      0.00      4680
+          3       0.06      0.00      0.00      7910
+          4       0.48      0.68      0.56     17510
+          5       0.00      0.00      0.00      3300
+          6       0.00      0.00      0.00      1000
+          7       0.07      0.15      0.10     17501
+
+avg / total       0.37      0.37      0.36    103500
+
+result:0.463536231884

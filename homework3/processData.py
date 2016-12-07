@@ -240,6 +240,17 @@ def Task1():
 			feature, target = extract_features(feature, target, 600)
 			trues += Test1(classifiers,feature,target)
 		print 'result:' +str(trues/8.)
+def Task2():
+	for i in xrange(1,13):
+                trains = Preprocessing('data/'+str(i)+'.csv',False,i)
+		feature = trains.drop(['sample', 'label'], axis=1)
+                target = trains['label']
+	for i in xrange(13,16):
+		tests = Preprocessing('data/'+str(i)+'.csv',False,i)
+		feature = tests.drop(['sample', 'label'], axis=1)
+		target = tests['label']
+		
+	
 
 def Task3():
 	features = []

@@ -1,3 +1,4 @@
+Use scipy logsumexp().
 #############################
 data/1.csv
 #############################
@@ -39,13 +40,12 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
 dtype: int64
 0    1
 dtype: int64
-[1 2 3 3 3 7 1 1 7 7 7 7 1 1 7 7 1 7 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 1
+[1 1 3 3 3 7 1 7 7 7 7 7 1 1 7 7 1 7 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
 0.766666666667
              precision    recall  f1-score   support
 
           1       1.00      0.77      0.87        60
-          2       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
@@ -60,15 +60,15 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
 dtype: int64
 0    7
 dtype: int64
-[7 7 7 4 4]
-0.0
+[7 1 7 7 2]
+0.2
              precision    recall  f1-score   support
 
-          2       0.00      0.00      0.00         5
-          4       0.00      0.00      0.00         0
+          1       0.00      0.00      0.00         0
+          2       1.00      0.20      0.33         5
           7       0.00      0.00      0.00         0
 
-avg / total       0.00      0.00      0.00         5
+avg / total       1.00      0.20      0.33         5
 
 predict#############################
 KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
@@ -78,50 +78,109 @@ KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
 dtype: int64
 0    7
 dtype: int64
-[7 7 7 7 4]
+[7 7 3 7 4]
 0.0
              precision    recall  f1-score   support
 
-          2       0.00  [?1049h[?1h=[?12;25h[?12l[?25h[27m[m[H[2J[?25l[1;1H[38;5;81mimport[m pandas [93mas[m pd
-[38;5;81mimport[m numpy [93mas[m np
-[38;5;81mimport[m matplotlib.pyplot [93mas[m plt
-[38;5;81mfrom[m scipy.signal [38;5;81mimport[m butter, lfilter, freqz
-[38;5;81mfrom[m scipy.signal [38;5;81mimport[m argrelmin, argrelmax
-[38;5;81mimport[m scipy.stats.stats [93mas[m st
-[38;5;81mfrom[m sklearn.linear_model [38;5;81mimport[m LogisticRegression
-[38;5;81mfrom[m sklearn.ensemble [38;5;81mimport[m RandomForestClassifier,AdaBoostClassifier
-[38;5;81mfrom[m sklearn.neighbors [38;5;81mimport[m KNeighborsClassifier
-[38;5;81mfrom[m sklearn.metrics [38;5;81mimport[m classification_report
-[38;5;81mfrom[m sklearn.svm [38;5;81mimport[m SVC
-[38;5;81mfrom[m sklearn.tree [38;5;81mimport[m DecisionTreeClassifier
-[38;5;81mfrom[m sklearn.naive_bayes [38;5;81mimport[m GaussianNB
+          2       0.00      0.00      0.00         5
+          3       0.00      0.00      0.00         0
+          4       0.00      0.00      0.00         0
+          7       0.00      0.00      0.00         0
 
-[93mdef[m [1m[96mReadCSV[m(filename):[16;9H[93mreturn[m pd.read_csv(filename,header=[1m[96mNone[m,names=[[95m'sample'[m,[95m'x'[m,[95m'y'[m,[95m'z'[m,[95m'label'[m],indd[17;1Hex_col=[1m[96mFalse[m,dtype={[95m'sample'[m:np.int64})
+avg / total       0.00      0.00      0.00         5
 
-[93mdef[m [1m[96mShowData[m(data):[20;9Hdata.info()[21;9H[96m#print data.head()[m[22;9H[1m[96mprint[m data.drop_duplicates([[95m'label'[m])[[95m'label'[m][23;9H[96m# check for missing data[m[24;9Hnan_flag = [1m[96mFalse[m[25;9H[93mfor[m c [93min[m data.columns:[26;17H[93mif[m [1m[96many[m(data[c] == np.nan):[27;25H[1m[96mprint[m c, [95m'contains NaNs'[m[28;25Hnan_flag = [1m[96mTrue[m[29;9H[93mif[m [93mnot[m nan_flag:[30;17H[1m[96mprint[m [95m'No missing values.'[m[31;9HPlotData_before(data)
+predict#############################
+RandomForestClassifier(bootstrap=True, class_weight='balanced',
+            criterion='gini', max_depth=None, max_features='auto',
+            max_leaf_nodes=None, min_impurity_split=1e-07,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+0    2
+dtype: int64
+0    7
+dtype: int64
+[7 7 7 7 2]
+0.2
+             precision    recall  f1-score   support
 
-[93mdef[m [1m[96mPlotData_before[m(data):[34;9H_fig,_axes = plt.subplots(nrows=[95m7[m, ncols=[95m3[m, figsize=([95m20[m, [95m9[m))[35;9Hname = [[95m'x'[m,[95m'y'[m,[95m'z'[m][36;9H[93mfor[m n [93min[m [1m[96mxrange[m([95m0[m,[95m3[m):[37;17H[93mfor[m c [93min[m [1m[96mxrange[m([95m1[m, [95m8[m):[38;25H_axes[c-[95m1[m][n].plot(data[data[[95m'label'[m]==c][name[n]], linewidth=[95m.55[m[39;1H)[40;25H_axes[c-[95m1[m][n].ticklabel_format(style=[95m'sci'[m, axis=[95m'x'[m, scilimits==[41;1H([95m0[m,[95m0[m))[42;9H[93mpass[1;1H[?12l[?25h[m[43;1H
-[38;5;121mW11: Warning: File "processData.py" has changed since editing started[m
-[38;5;121mSee ":help W11" for more info.[m
-[38;5;121m[O]K, (L)oad File: [m[?1l>[?1049lVim: Caught deadly signal HUP
-Vim: Finished.
-[43;1Htate=None, solver='liblinear', tol=0.0001,
+          2       1.00      0.20      0.33         5
+          7       0.00      0.00      0.00         0
+
+avg / total       1.00      0.20      0.33         5
+
+predict#############################
+AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+0    2
+dtype: int64
+0    7
+dtype: int64
+[7 7 7 7 2]
+0.2
+             precision    recall  f1-score   support
+
+          2       1.00      0.20      0.33         5
+          7       0.00      0.00      0.00         0
+
+avg / total       1.00      0.20      0.33         5
+
+predict#############################
+GaussianNB(priors=None)
+0    2
+dtype: int64
+0    2
+1    5
+dtype: int64
+[6 2 2 5 5]
+0.4
+             precision    recall  f1-score   support
+
+          2       1.00      0.40      0.57         5
+          5       0.00      0.00      0.00         0
+          6       0.00      0.00      0.00         0
+
+avg / total       1.00      0.40      0.57         5
+
+predict#############################
+DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_split=1e-07, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')
+0    2
+dtype: int64
+0    7
+dtype: int64
+[7 7 7 7 7]
+0.0
+             precision    recall  f1-score   support
+
+          2       0.00      0.00      0.00         5
+          7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00         5
+
+predict#############################
+LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
           verbose=0, warm_start=False)
 0    3
 dtype: int64
 0    7
 dtype: int64
-[4 3 7 7 7 7 7 7 7 3 4 4 4 7 7 7 7 7 7 7 1 4 4 4 7 7 2]
-0.0740740740741
+[3 3 7 7 7 7 7 7 7 3 4 4 3 3 7 7 7 7 7 7 7 7 3 3 7 7 6]
+0.259259259259
              precision    recall  f1-score   support
 
-          1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00         0
-          3       1.00      0.07      0.14        27
+          3       1.00      0.26      0.41        27
           4       0.00      0.00      0.00         0
+          6       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.07      0.14        27
+avg / total       1.00      0.26      0.41        27
 
 predict#############################
 KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
@@ -131,11 +190,12 @@ KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
 dtype: int64
 0    7
 dtype: int64
-[3 4 7 7 7 1 7 7 7 3 4 3 3 7 1 7 7 7 7 7 1 7 4 4 7 7 1]
+[1 4 7 7 7 7 7 7 7 3 4 4 4 3 1 7 7 7 7 7 3 4 4 4 2 3 7]
 0.148148148148
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
+          2       0.00      0.00      0.00         0
           3       1.00      0.15      0.26        27
           4       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
@@ -152,20 +212,20 @@ RandomForestClassifier(bootstrap=True, class_weight='balanced',
             warm_start=False)
 0    3
 dtype: int64
-0    7
+0    1
 dtype: int64
-[5 3 7 7 7 7 1 1 1 3 4 4 4 3 7 7 7 1 1 1 7 3 4 4 2 7 3]
-0.185185185185
+[3 4 7 7 7 7 1 1 1 7 4 4 4 1 1 7 1 1 1 1 1 4 5 5 7 1 2]
+0.037037037037
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
           2       0.00      0.00      0.00         0
-          3       1.00      0.19      0.31        27
+          3       1.00      0.04      0.07        27
           4       0.00      0.00      0.00         0
           5       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.19      0.31        27
+avg / total       1.00      0.04      0.07        27
 
 predict#############################
 AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
@@ -174,11 +234,10 @@ AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
 dtype: int64
 0    7
 dtype: int64
-[4 7 7 7 7 7 7 7 7 7 4 4 7 7 7 7 7 7 7 7 7 7 4 4 7 7 2]
+[4 4 7 7 7 7 7 7 7 7 4 4 4 7 7 7 7 7 7 7 7 7 7 4 7 7 7]
 0.0
              precision    recall  f1-score   support
 
-          2       0.00      0.00      0.00         0
           3       0.00      0.00      0.00        27
           4       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
@@ -189,19 +248,18 @@ predict#############################
 GaussianNB(priors=None)
 0    3
 dtype: int64
-0    7
+0    6
 dtype: int64
-[3 4 6 7 7 7 7 7 7 4 4 4 4 7 7 7 7 7 7 7 7 4 4 4 4 7 5]
-0.037037037037
+[2 5 5 6 6 6 6 6 6 6 5 5 5 6 6 6 6 6 6 6 6 5 5 5 5 6 5]
+0.0
              precision    recall  f1-score   support
 
-          3       1.00      0.04      0.07        27
-          4       0.00      0.00      0.00         0
+          2       0.00      0.00      0.00         0
+          3       0.00      0.00      0.00        27
           5       0.00      0.00      0.00         0
           6       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.04      0.07        27
+avg / total       0.00      0.00      0.00        27
 
 predict#############################
 DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
@@ -211,19 +269,18 @@ DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
             presort=False, random_state=None, splitter='best')
 0    3
 dtype: int64
-0    1
+0    7
 dtype: int64
-[3 1 7 7 1 1 1 1 7 1 4 4 1 1 1 7 7 7 7 7 7 1 5 5 1 1 7]
-0.037037037037
+[5 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 1 7 7 1 7 5 5 5 7 7 7]
+0.0
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
-          3       1.00      0.04      0.07        27
-          4       0.00      0.00      0.00         0
+          3       0.00      0.00      0.00        27
           5       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.04      0.07        27
+avg / total       0.00      0.00      0.00        27
 
 predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
@@ -235,14 +292,15 @@ dtype: int64
 0    4
 dtype: int64
 [7 7 7 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
- 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
-0.948275862069
+ 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 3 3 4 4 4 4]
+0.896551724138
              precision    recall  f1-score   support
 
-          4       1.00      0.95      0.97        58
+          3       0.00      0.00      0.00         0
+          4       1.00      0.90      0.95        58
           7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.95      0.97        58
+avg / total       1.00      0.90      0.95        58
 
 predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
@@ -251,12 +309,13 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
           verbose=0, warm_start=False)
 0    5
 dtype: int64
-0    4
+0    3
 dtype: int64
-[7 7 7 4 4 4 4 4 4 4 5]
+[7 7 7 7 3 4 3 3 3 3 5]
 0.0909090909091
              precision    recall  f1-score   support
 
+          3       0.00      0.00      0.00         0
           4       0.00      0.00      0.00         0
           5       1.00      0.09      0.17        11
           7       0.00      0.00      0.00         0
@@ -271,17 +330,16 @@ KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
 dtype: int64
 0    4
 dtype: int64
-[1 7 7 3 4 4 4 4 4 4 4]
-0.0
+[1 3 1 4 4 4 4 4 4 3 5]
+0.0909090909091
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
           4       0.00      0.00      0.00         0
-          5       0.00      0.00      0.00        11
-          7       0.00      0.00      0.00         0
+          5       1.00      0.09      0.17        11
 
-avg / total       0.00      0.00      0.00        11
+avg / total       1.00      0.09      0.17        11
 
 predict#############################
 RandomForestClassifier(bootstrap=True, class_weight='balanced',
@@ -293,19 +351,18 @@ RandomForestClassifier(bootstrap=True, class_weight='balanced',
             warm_start=False)
 0    5
 dtype: int64
-0    4
+0    3
 dtype: int64
-[7 1 7 3 3 4 4 4 3 4 4]
-0.0
+[1 7 1 1 3 3 3 3 5 3 5]
+0.181818181818
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
-          5       0.00      0.00      0.00        11
+          5       1.00      0.18      0.31        11
           7       0.00      0.00      0.00         0
 
-avg / total       0.00      0.00      0.00        11
+avg / total       1.00      0.18      0.31        11
 
 predict#############################
 AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
@@ -313,25 +370,9 @@ AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
 0    5
 dtype: int64
 0    4
+1    7
 dtype: int64
-[7 7 7 2 4 5 4 4 5 4 2]
-0.181818181818
-             precision    recall  f1-score   support
-
-          2       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
-          5       1.00      0.18      0.31        11
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.18      0.31        11
-
-predict#############################
-GaussianNB(priors=None)
-0    5
-dtype: int64
-0    4
-dtype: int64
-[7 7 7 4 4 4 4 4 4 4 5]
+[7 7 7 7 4 4 4 4 4 7 5]
 0.0909090909091
              precision    recall  f1-score   support
 
@@ -342,24 +383,20 @@ dtype: int64
 avg / total       1.00      0.09      0.17        11
 
 predict#############################
-DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
-            max_features=None, max_leaf_nodes=None,
-            min_impurity_split=1e-07, min_samples_leaf=1,
-            min_samples_split=2, min_weight_fraction_leaf=0.0,
-            presort=False, random_state=None, splitter='best')
+GaussianNB(priors=None)
 0    5
 dtype: int64
 0    5
 dtype: int64
-[1 7 7 1 5 5 5 5 5 5 7]
-0.545454545455
+[6 2 2 5 5 5 5 5 5 5 5]
+0.727272727273
              precision    recall  f1-score   support
 
-          1       0.00      0.00      0.00         0
-          5       1.00      0.55      0.71        11
-          7       0.00      0.00      0.00         0
+          2       0.00      0.00      0.00         0
+          5       1.00      0.73      0.84        11
+          6       0.00      0.00      0.00         0
 
-avg / total       1.00      0.55      0.71        11
+avg / total       1.00      0.73      0.84        11
 
 predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
@@ -388,12 +425,11 @@ KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
 dtype: int64
 0    7
 dtype: int64
-[7 7 3 2]
+[7 7 7 2]
 0.0
              precision    recall  f1-score   support
 
           2       0.00      0.00      0.00         0
-          3       0.00      0.00      0.00         0
           6       0.00      0.00      0.00         4
           7       0.00      0.00      0.00         0
 
@@ -411,12 +447,12 @@ RandomForestClassifier(bootstrap=True, class_weight='balanced',
 dtype: int64
 0    7
 dtype: int64
-[1 7 7 4]
+[7 1 7 3]
 0.0
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
+          3       0.00      0.00      0.00         0
           6       0.00      0.00      0.00         4
           7       0.00      0.00      0.00         0
 
@@ -429,11 +465,10 @@ AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
 dtype: int64
 0    7
 dtype: int64
-[3 7 7 7]
+[7 7 7 7]
 0.0
              precision    recall  f1-score   support
 
-          3       0.00      0.00      0.00         0
           6       0.00      0.00      0.00         4
           7       0.00      0.00      0.00         0
 
@@ -443,17 +478,17 @@ predict#############################
 GaussianNB(priors=None)
 0    6
 dtype: int64
-0    7
+0    2
 dtype: int64
-[7 7 7 5]
-0.0
+[2 2 6 5]
+0.25
              precision    recall  f1-score   support
 
+          2       0.00      0.00      0.00         0
           5       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         4
-          7       0.00      0.00      0.00         0
+          6       1.00      0.25      0.40         4
 
-avg / total       0.00      0.00      0.00         4
+avg / total       1.00      0.25      0.40         4
 
 predict#############################
 DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
@@ -463,13 +498,12 @@ DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
             presort=False, random_state=None, splitter='best')
 0    6
 dtype: int64
-0    1
+0    7
 dtype: int64
-[1 1 1 7]
+[7 7 7 7]
 0.0
              precision    recall  f1-score   support
 
-          1       0.00      0.00      0.00         0
           6       0.00      0.00      0.00         4
           7       0.00      0.00      0.00         0
 
@@ -484,17 +518,17 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
 dtype: int64
 0    7
 dtype: int64
-[4 4 4 3 7 7 7 7 7 7 7 7 7 7 7 7 7 1 1 1 7 7 7 7 7 1 7 7 7 7 1 1 1 1 1 1 1
- 1 1 7 7 1 7 7 7 7 7 7 7 7 7 7 7 1 1 7 7]
-0.649122807018
+[7 4 3 3 7 7 7 7 7 7 7 7 7 7 7 7 7 7 1 7 7 7 7 7 7 1 7 7 7 7 1 1 7 7 1 1 1
+ 1 1 7 7 1 7 7 7 7 7 7 7 7 7 7 7 3 1 7 7]
+0.736842105263
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
           4       0.00      0.00      0.00         0
-          7       1.00      0.65      0.79        57
+          7       1.00      0.74      0.85        57
 
-avg / total       1.00      0.65      0.79        57
+avg / total       1.00      0.74      0.85        57
 
 result:0.5
 #############################
@@ -506,261 +540,180 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
           verbose=0, warm_start=False)
 0    1
 dtype: int64
+0    3
+dtype: int64
+[1 3 3 3 7 3 3 3 3 3 3 3 3 7 3 3 3 3 7 3 3 3 3 1 3 1 7 3 3 3 3 3 3 7 3 3 3
+ 3 3 3 3 3 3 3 1 7 3 3 3 1 3 3 7 3 3 3 3 3 3 3 3 3 3 1 3 3 7 1 3 3 3 7 7 1
+ 3 3 3 7 3 3 3 3 3 3 3 3 3 3 3 3 1 7 3 3 3 3 3 3 7 7 7 3 7 3 3 3 3 3 3 7 3
+ 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 7 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ 3 3 3 3 3 3 3 3 3 7 3 3 3 3 3 3 3 3 3 3 7 3 3 3 3 3 3 1]
+0.0568181818182
+             precision    recall  f1-score   support
+
+          1       1.00      0.06      0.11       176
+          3       0.00      0.00      0.00         0
+          7       0.00      0.00      0.00         0
+
+avg / total       1.00      0.06      0.11       176
+
+predict#############################
+KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights='uniform')
 0    1
 dtype: int64
-[1 1 1 7 7 7 1 1 1 1 1 1 1 1 7 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
- 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
- 1 1 1 7 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 7 7 1 1 1 1 1 1 1 1 1 1
- 1 1 1 1 1 7 1 1 1 1 1 1 1 1 1 1 1 1 1 7 1 1 1 1 1 1 1 7 1 1 1 1 1 1 1 7 1
- 1 1 1 1 1 1 1 1 1 7 7 7 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
-0.920454545455
-             precision    recall  f1-score   support
-
-          1       1.00      0.92      0.96       176
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.92      0.96       176
-
-predict#############################
-LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
-          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
-          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)
-Series([], dtype: int64)
-Series([], dtype: int64)
-[1]
-0.0
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00         1
-
-avg / total       0.00      0.00      0.00         1
-
-predict#############################
-KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
-           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
-           weights='uniform')
-Series([], dtype: int64)
-Series([], dtype: int64)
-[6]
-0.0
-             precision    recall  f1-score   support
-
-          2       0.00      0.00      0.00         1
-          6       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00         1
-
-predict#############################
-RandomForestClassifier(bootstrap=True, class_weight='balanced',
-            criterion='gini', max_depth=None, max_features='auto',
-            max_leaf_nodes=None, min_impurity_split=1e-07,
-            min_samples_leaf=1, min_samples_split=2,
-            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
-            oob_score=False, random_state=None, verbose=0,
-            warm_start=False)
-Series([], dtype: int64)
-Series([], dtype: int64)
-[1]
-0.0
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00         1
-
-avg / total       0.00      0.00      0.00         1
-
-predict#############################
-AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
-          learning_rate=1.0, n_estimators=50, random_state=None)
-Series([], dtype: int64)
-Series([], dtype: int64)
-[2]
-1.0
-             precision    recall  f1-score   support
-
-          2       1.00      1.00      1.00         1
-
-avg / total       1.00      1.00      1.00         1
-
-predict#############################
-GaussianNB(priors=None)
-Series([], dtype: int64)
-Series([], dtype: int64)
-[6]
-0.0
-             precision    recall  f1-score   support
-
-          2       0.00      0.00      0.00         1
-          6       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00         1
-
-predict#############################
-DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
-            max_features=None, max_leaf_nodes=None,
-            min_impurity_split=1e-07, min_samples_leaf=1,
-            min_samples_split=2, min_weight_fraction_leaf=0.0,
-            presort=False, random_state=None, splitter='best')
-Series([], dtype: int64)
-Series([], dtype: int64)
-[1]
-0.0
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00         1
-
-avg / total       0.00      0.00      0.00         1
-
-predict#############################
-LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
-          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
-          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)
-0    3
+0    1
 dtype: int64
-0    7
-dtype: int64
-[7 7 1 7 4 4 3 7 7 1 1 7 1 7 7 1 3 4 7 7 7 1 1 1 7 7 7 7 1 1 4 7 1 7 7 7 7
- 7 7 7 7 1]
-0.047619047619
+[4 1 7 1 1 1 1 1 1 1 1 7 7 1 1 1 1 1 7 7 1 1 7 7 1 1 1 1 7 3 1 1 1 1 1 7 1
+ 1 1 7 1 1 1 1 1 1 1 1 1 1 1 7 7 1 7 1 1 7 1 1 1 1 3 1 1 1 7 7 1 1 7 1 1 7
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 7 1 1 1 1 7 7 1 1 1 1 7 7 7 7 7 1 1 3 7 7 7 7
+ 7 1 1 1 1 1 7 1 1 1 1 1 7 1 1 1 7 1 1 7 1 1 1 7 7 1 1 1 1 7 1 7 1 1 1 7 1
+ 1 1 1 1 1 2 1 1 1 1 7 1 7 1 1 7 7 1 1 7 1 1 1 7 1 1 1 7]
+0.704545454545
              precision    recall  f1-score   support
 
-          1       0.00      0.00      0.00         0
-          3       1.00      0.05      0.09        42
-          4       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.05      0.09        42
-
-predict#############################
-KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
-           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
-           weights='uniform')
-0    3
-dtype: int64
-0    7
-dtype: int64
-[1 7 7 1 4 4 3 7 1 1 1 7 7 7 3 7 3 4 7 1 1 7 3 3 1 7 7 1 7 4 2 7 7 3 7 7 1
- 7 7 7 7 1]
-0.142857142857
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
+          1       1.00      0.70      0.83       176
           2       0.00      0.00      0.00         0
-          3       1.00      0.14      0.25        42
-          4       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.14      0.25        42
-
-predict#############################
-RandomForestClassifier(bootstrap=True, class_weight='balanced',
-            criterion='gini', max_depth=None, max_features='auto',
-            max_leaf_nodes=None, min_impurity_split=1e-07,
-            min_samples_leaf=1, min_samples_split=2,
-            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
-            oob_score=False, random_state=None, verbose=0,
-            warm_start=False)
-0    3
-dtype: int64
-0    7
-dtype: int64
-[1 7 1 7 3 4 7 7 3 7 3 7 3 7 7 1 3 4 7 7 7 1 3 7 1 7 7 1 1 7 2 3 7 7 7 7 1
- 7 7 7 7 3]
-0.190476190476
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00         0
-          3       1.00      0.19      0.32        42
-          4       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.19      0.32        42
-
-predict#############################
-AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
-          learning_rate=1.0, n_estimators=50, random_state=None)
-0    3
-dtype: int64
-0    7
-dtype: int64
-[2 7 7 7 7 3 7 7 7 7 7 7 7 7 7 1 7 7 7 7 1 7 7 1 1 7 7 7 7 2 2 7 7 7 7 7 7
- 7 7 7 1 2]
-0.0238095238095
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00         0
-          3       1.00      0.02      0.05        42
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.02      0.05        42
-
-predict#############################
-GaussianNB(priors=None)
-0    3
-dtype: int64
-0    7
-dtype: int64
-[7 7 7 7 4 4 3 7 7 7 7 7 7 7 7 7 3 4 7 7 7 7 7 7 7 7 7 7 7 7 4 7 2 7 7 7 7
- 7 7 7 7 6]
-0.047619047619
-             precision    recall  f1-score   support
-
-          2       0.00      0.00      0.00         0
-          3       1.00      0.05      0.09        42
-          4       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.05      0.09        42
-
-predict#############################
-DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
-            max_features=None, max_leaf_nodes=None,
-            min_impurity_split=1e-07, min_samples_leaf=1,
-            min_samples_split=2, min_weight_fraction_leaf=0.0,
-            presort=False, random_state=None, splitter='best')
-0    3
-dtype: int64
-0    7
-dtype: int64
-[1 7 7 7 7 4 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 1 1 7 7 7 7 1 1
- 7 7 7 7 7]
-0.0
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          3       0.00      0.00      0.00        42
-          4       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00        42
-
-predict#############################
-LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
-          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
-          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
-          verbose=0, warm_start=False)
-0    4
-dtype: int64
-0    4
-dtype: int64
-[1 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
- 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
- 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
-0.979381443299
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
-          4       1.00      0.98      0.99        97
+          4       0.00      0.00      0.00         0
+          7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.98      0.99        97
+avg / total       1.00      0.70      0.83       176
+
+predict#############################
+LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False)
+Series([], dtype: int64)
+Series([], dtype: int64)
+[1]
+0.0
+             precision    recall  f1-score   support
+
+          1       0.00      0.00      0.00         0
+          2       0.00      0.00      0.00         1
+
+avg / total       0.00      0.00      0.00         1
+
+predict#############################
+KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights='uniform')
+Series([], dtype: int64)
+Series([], dtype: int64)
+[1]
+0.0
+             precision    recall  f1-score   support
+
+          1       0.00      0.00      0.00         0
+          2       0.00      0.00      0.00         1
+
+avg / total       0.00      0.00      0.00         1
+
+predict#############################
+RandomForestClassifier(bootstrap=True, class_weight='balanced',
+            criterion='gini', max_depth=None, max_features='auto',
+            max_leaf_nodes=None, min_impurity_split=1e-07,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+Series([], dtype: int64)
+Series([], dtype: int64)
+[7]
+0.0
+             precision    recall  f1-score   support
+
+          2       0.00      0.00      0.00         1
+          7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00         1
+
+predict#############################
+AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+Series([], dtype: int64)
+Series([], dtype: int64)
+[1]
+0.0
+             precision    recall  f1-score   support
+
+          1       0.00      0.00      0.00         0
+          2       0.00      0.00      0.00         1
+
+avg / total       0.00      0.00      0.00         1
+
+predict#############################
+GaussianNB(priors=None)
+Series([], dtype: int64)
+Series([], dtype: int64)
+[7]
+0.0
+             precision    recall  f1-score   support
+
+          2       0.00      0.00      0.00         1
+          7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00         1
+
+predict#############################
+DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_split=1e-07, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')
+Series([], dtype: int64)
+Series([], dtype: int64)
+[7]
+0.0
+             precision    recall  f1-score   support
+
+          2       0.00      0.00      0.00         1
+          7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00         1
+
+predict#############################
+LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False)
+0    3
+dtype: int64
+0    3
+dtype: int64
+[7 7 3 3 3 3 3 7 7 3 3 7 3 3 3 3 3 3 3 3 7 7 3 3 3 3 3 3 3 3 7 3 1 7 7 7 7
+ 7 7 7 7 1]
+0.571428571429
+             precision    recall  f1-score   support
+
+          1       0.00      0.00      0.00         0
+          3       1.00      0.57      0.73        42
+          7       0.00      0.00      0.00         0
+
+avg / total       1.00      0.57      0.73        42
+
+predict#############################
+LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False)
+0    4
+dtype: int64
+0    4
+dtype: int64
+[3 3 3 3 4 4 4 4 3 7 7 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+ 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 7 3 3 4 4 7 7 7 7 4 4
+ 4 4 4 4 4 4 7 7 4 4 4 4 4 4 3 3 3 4 4 4 4 4 4]
+0.79381443299
+             precision    recall  f1-score   support
+
+          3       0.00      0.00      0.00         0
+          4       1.00      0.79      0.89        97
+          7       0.00      0.00      0.00         0
+
+avg / total       1.00      0.79      0.89        97
 
 predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
@@ -769,16 +722,15 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
           verbose=0, warm_start=False)
 0    5
 dtype: int64
-0    4
+0    3
 dtype: int64
-[7 4 4 4 4 4 4 4 4 4 4 2]
+[3 3 3 3 3 3 3 3 3 3 3 2]
 0.0
              precision    recall  f1-score   support
 
           2       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
+          3       0.00      0.00      0.00         0
           5       0.00      0.00      0.00        12
-          7       0.00      0.00      0.00         0
 
 avg / total       0.00      0.00      0.00        12
 
@@ -790,14 +742,13 @@ KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
 dtype: int64
 0    4
 dtype: int64
-[1 7 4 4 4 4 4 4 4 4 4 5]
+[1 4 4 4 4 4 4 4 4 4 4 5]
 0.0833333333333
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
           4       0.00      0.00      0.00         0
           5       1.00      0.08      0.15        12
-          7       0.00      0.00      0.00         0
 
 avg / total       1.00      0.08      0.15        12
 
@@ -813,18 +764,17 @@ RandomForestClassifier(bootstrap=True, class_weight='balanced',
 dtype: int64
 0    4
 dtype: int64
-[7 2 4 4 4 3 7 2 4 4 4 6]
-0.0
+[7 2 5 4 4 4 3 3 4 5 4 4]
+0.166666666667
              precision    recall  f1-score   support
 
           2       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
           4       0.00      0.00      0.00         0
-          5       0.00      0.00      0.00        12
-          6       0.00      0.00      0.00         0
+          5       1.00      0.17      0.29        12
           7       0.00      0.00      0.00         0
 
-avg / total       0.00      0.00      0.00        12
+avg / total       1.00      0.17      0.29        12
 
 predict#############################
 AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
@@ -833,12 +783,10 @@ AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
 dtype: int64
 0    4
 dtype: int64
-[7 2 3 4 4 4 4 4 4 4 4 4]
+[7 7 7 4 7 4 4 4 4 4 4 7]
 0.0
              precision    recall  f1-score   support
 
-          2       0.00      0.00      0.00         0
-          3       0.00      0.00      0.00         0
           4       0.00      0.00      0.00         0
           5       0.00      0.00      0.00        12
           7       0.00      0.00      0.00         0
@@ -849,39 +797,16 @@ predict#############################
 GaussianNB(priors=None)
 0    5
 dtype: int64
-0    4
-dtype: int64
-[7 3 4 4 4 4 4 4 4 4 4 5]
-0.0833333333333
-             precision    recall  f1-score   support
-
-          3       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
-          5       1.00      0.08      0.15        12
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.08      0.15        12
-
-predict#############################
-DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
-            max_features=None, max_leaf_nodes=None,
-            min_impurity_split=1e-07, min_samples_leaf=1,
-            min_samples_split=2, min_weight_fraction_leaf=0.0,
-            presort=False, random_state=None, splitter='best')
 0    5
 dtype: int64
-0    5
-dtype: int64
-[7 1 5 5 5 5 5 5 4 5 5 7]
-0.666666666667
+[2 5 5 5 5 5 5 5 5 5 5 5]
+0.916666666667
              precision    recall  f1-score   support
 
-          1       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
-          5       1.00      0.67      0.80        12
-          7       0.00      0.00      0.00         0
+          2       0.00      0.00      0.00         0
+          5       1.00      0.92      0.96        12
 
-avg / total       1.00      0.67      0.80        12
+avg / total       1.00      0.92      0.96        12
 
 predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
@@ -890,71 +815,10 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
           verbose=0, warm_start=False)
 0    6
 dtype: int64
-0    7
-dtype: int64
-[7 7 7 4 2]
-0.0
-             precision    recall  f1-score   support
-
-          2       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         5
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00         5
-
-predict#############################
-KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
-           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
-           weights='uniform')
-0    6
-dtype: int64
-0    1
-1    2
-dtype: int64
-[1 1 2 4 2]
-0.0
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         5
-
-avg / total       0.00      0.00      0.00         5
-
-predict#############################
-RandomForestClassifier(bootstrap=True, class_weight='balanced',
-            criterion='gini', max_depth=None, max_features='auto',
-            max_leaf_nodes=None, min_impurity_split=1e-07,
-            min_samples_leaf=1, min_samples_split=2,
-            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
-            oob_score=False, random_state=None, verbose=0,
-            warm_start=False)
-0    6
-dtype: int64
-0    4
+0    3
 1    7
 dtype: int64
-[1 7 7 4 4]
-0.0
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         5
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00         5
-
-predict#############################
-AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
-          learning_rate=1.0, n_estimators=50, random_state=None)
-0    6
-dtype: int64
-0    7
-dtype: int64
-[7 7 2 3 7]
+[7 7 3 3 2]
 0.0
              precision    recall  f1-score   support
 
@@ -966,7 +830,9 @@ dtype: int64
 avg / total       0.00      0.00      0.00         5
 
 predict#############################
-GaussianNB(priors=None)
+KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights='uniform')
 0    6
 dtype: int64
 0    4
@@ -984,11 +850,32 @@ dtype: int64
 avg / total       0.00      0.00      0.00         5
 
 predict#############################
-DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
-            max_features=None, max_leaf_nodes=None,
-            min_impurity_split=1e-07, min_samples_leaf=1,
-            min_samples_split=2, min_weight_fraction_leaf=0.0,
-            presort=False, random_state=None, splitter='best')
+RandomForestClassifier(bootstrap=True, class_weight='balanced',
+            criterion='gini', max_depth=None, max_features='auto',
+            max_leaf_nodes=None, min_impurity_split=1e-07,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+0    6
+dtype: int64
+0    3
+dtype: int64
+[7 3 3 4 5]
+0.0
+             precision    recall  f1-score   support
+
+          3       0.00      0.00      0.00         0
+          4       0.00      0.00      0.00         0
+          5       0.00      0.00      0.00         0
+          6       0.00      0.00      0.00         5
+          7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00         5
+
+predict#############################
+AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
 0    6
 dtype: int64
 0    7
@@ -1004,24 +891,61 @@ dtype: int64
 avg / total       0.00      0.00      0.00         5
 
 predict#############################
+GaussianNB(priors=None)
+0    6
+dtype: int64
+0    5
+1    6
+dtype: int64
+[2 6 6 5 5]
+0.4
+             precision    recall  f1-score   support
+
+          2       0.00      0.00      0.00         0
+          5       0.00      0.00      0.00         0
+          6       1.00      0.40      0.57         5
+
+avg / total       1.00      0.40      0.57         5
+
+predict#############################
+DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_split=1e-07, min_samples_leaf=1,
+            min_samples_split=2, min_weight_fraction_leaf=0.0,
+            presort=False, random_state=None, splitter='best')
+0    6
+dtype: int64
+0    7
+dtype: int64
+[7 7 7 5 7]
+0.0
+             precision    recall  f1-score   support
+
+          5       0.00      0.00      0.00         0
+          6       0.00      0.00      0.00         5
+          7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00         5
+
+predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
           penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
           verbose=0, warm_start=False)
 0    7
 dtype: int64
-0    1
+0    3
 dtype: int64
-[3 3 1 1 1 1 1 1 7 7 1 1 1 7 7 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 7 7 1 1 1
- 1 7 1 1 7 1 7 7 7 7 1 1 7 1]
-0.254901960784
+[3 3 3 3 3 3 3 3 7 7 3 7 1 7 7 7 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 7 3 3 3 3
+ 7 7 3 7 7 3 3 3 3 7 3 3 3 1]
+0.235294117647
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
-          7       1.00      0.25      0.41        51
+          7       1.00      0.24      0.38        51
 
-avg / total       1.00      0.25      0.41        51
+avg / total       1.00      0.24      0.38        51
 
 predict#############################
 KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
@@ -1029,45 +953,21 @@ KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
            weights='uniform')
 0    7
 dtype: int64
-0    1
+0    7
 dtype: int64
-[3 1 7 3 1 1 1 1 1 2 1 7 7 7 7 1 7 1 7 1 1 7 1 7 1 7 1 7 1 1 7 2 1 1 1 1 1
- 1 7 1 3 1 1 7 3 1 7 1 7 7 7]
-0.352941176471
+[4 1 1 1 7 1 7 1 7 1 1 7 7 7 7 1 1 7 7 7 1 1 7 1 7 7 1 1 7 3 7 1 1 7 7 1 1
+ 7 7 7 7 1 7 7 7 1 7 1 7 1 1]
+0.509803921569
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
-          7       1.00      0.35      0.52        51
+          4       0.00      0.00      0.00         0
+          7       1.00      0.51      0.68        51
 
-avg / total       1.00      0.35      0.52        51
+avg / total       1.00      0.51      0.68        51
 
-predict#############################
-RandomForestClassifier(bootstrap=True, class_weight='balanced',
-            criterion='gini', max_depth=None, max_features='auto',
-            max_leaf_nodes=None, min_impurity_split=1e-07,
-            min_samples_leaf=1, min_samples_split=2,
-            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
-            oob_score=False, random_state=None, verbose=0,
-            warm_start=False)
-0    7
-dtype: int64
-0    7
-dtype: int64
-[2 7 1 7 7 7 1 1 7 1 1 2 1 7 7 7 1 1 7 3 7 7 7 7 7 7 1 1 1 7 7 1 1 1 3 1 1
- 1 7 1 1 7 7 7 3 3 1 7 3 3 1]
-0.43137254902
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00         0
-          3       0.00      0.00      0.00         0
-          7       1.00      0.43      0.60        51
-
-avg / total       1.00      0.43      0.60        51
-
-result:0.5
+result:0.625
 #############################
 data/15.csv
 predict#############################
@@ -1079,21 +979,21 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
 dtype: int64
 0    7
 dtype: int64
-[1 2 7 2 2 2 3 7 7 7 7 4 4 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 1 7 7 7 1 7 7 1 7
- 7 7 7 1 1 1 1 1 1 7 1 7 7 7 7 1 1 1 1 1 1 1 1 1 1 1 1 1 7 7 7 7 7 1 7 7 7
- 7 7 7 7 1 1 1 7 7 7 7 7 7 7 7 1 1 7 7 7 7 7 7 7 1 7 7 7 7 7 1 7 1 1 1 7 7
- 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 3 3 7 1 7 7 7 7 7 7 3 7 7 7 7 7 7
- 1 1 7 7 7 7 7 7 3 3 3 3 2 2 1 7 7 7 7 2 7 7 7 3]
-0.226744186047
+[1 1 7 2 2 3 3 7 7 7 7 4 4 7 7 7 7 3 7 7 1 7 7 7 1 7 7 7 1 7 7 7 1 1 7 1 7
+ 7 7 1 1 1 1 1 1 1 7 1 7 7 7 7 1 1 1 1 1 1 1 1 1 1 1 1 1 7 7 7 7 7 1 7 7 1
+ 7 7 7 1 1 1 1 7 7 1 7 7 3 3 3 1 1 7 7 7 7 7 3 7 1 3 3 7 7 1 1 3 1 1 7 7 7
+ 1 7 7 7 7 7 7 7 7 7 7 7 7 7 7 1 1 1 7 7 3 3 1 1 7 7 7 7 7 7 7 7 7 7 7 7 7
+ 1 1 7 7 7 7 7 7 3 3 2 2 2 7 1 7 7 7 7 7 1 1 7 7]
+0.313953488372
              precision    recall  f1-score   support
 
-          1       1.00      0.23      0.37       172
+          1       1.00      0.31      0.48       172
           2       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
           4       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.23      0.37       172
+avg / total       1.00      0.31      0.48       172
 
 predict#############################
 KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
@@ -1101,50 +1001,23 @@ KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
            weights='uniform')
 0    1
 dtype: int64
-0    7
+0    1
 dtype: int64
-[1 3 4 7 3 7 7 7 7 7 7 4 4 7 7 3 7 7 7 7 1 3 7 7 7 1 1 1 1 1 7 1 1 1 1 1 1
- 1 1 1 1 1 1 7 1 7 1 1 7 7 1 7 1 7 7 3 7 3 7 7 1 1 1 1 1 7 7 7 7 7 7 7 1 3
- 7 7 1 1 1 1 7 1 7 3 1 3 1 7 1 1 1 7 7 7 7 3 7 1 1 1 1 7 7 7 1 1 7 1 7 7 7
- 1 1 7 1 7 7 7 1 7 1 7 1 1 7 7 7 1 7 7 7 1 1 7 1 7 7 1 1 3 7 7 7 1 7 7 1 7
- 1 1 1 7 1 7 1 3 7 1 7 7 7 7 7 7 7 3 7 7 1 7 1 2]
-0.406976744186
+[1 4 4 4 3 4 7 1 7 7 1 3 4 7 3 4 2 7 1 7 1 7 7 1 7 1 1 1 1 1 1 7 1 1 7 7 7
+ 1 1 1 1 1 7 7 7 1 1 1 7 7 7 1 7 1 1 1 7 3 1 3 3 1 1 1 7 7 1 7 1 3 1 7 7 1
+ 7 7 1 1 7 7 1 7 1 3 1 1 1 1 1 3 7 7 3 3 7 1 7 1 4 7 7 7 1 7 7 1 7 1 7 7 1
+ 1 7 1 1 7 7 7 1 1 7 7 7 7 7 7 7 1 1 7 7 1 1 1 1 1 3 7 1 1 1 1 3 7 7 1 1 7
+ 7 1 7 7 1 7 1 7 7 1 1 1 3 1 3 7 7 7 1 7 1 1 7 2]
+0.447674418605
              precision    recall  f1-score   support
 
-          1       1.00      0.41      0.58       172
+          1       1.00      0.45      0.62       172
           2       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
           4       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.41      0.58       172
-
-predict#############################
-RandomForestClassifier(bootstrap=True, class_weight='balanced',
-            criterion='gini', max_depth=None, max_features='auto',
-            max_leaf_nodes=None, min_impurity_split=1e-07,
-            min_samples_leaf=1, min_samples_split=2,
-            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
-            oob_score=False, random_state=None, verbose=0,
-            warm_start=False)
-0    1
-dtype: int64
-0    1
-dtype: int64
-[1 1 7 7 1 4 1 1 1 1 1 4 7 7 1 1 1 7 1 1 1 1 1 7 7 1 1 1 1 1 1 1 1 1 1 1 1
- 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 7 7 3 3 3 3 3 3 3 7 3 7 7 1 1 1 1 1 1 1 1
- 1 7 1 7 7 7 7 1 1 1 7 7 7 7 7 7 7 7 1 1 7 7 7 7 7 7 7 7 1 1 1 1 1 1 1 1 1
- 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 7 1 1 1 1 1 1 1 1 1 7 7 7 1 7 7 1 1 1 1
- 1 1 7 1 1 1 1 7 1 3 3 3 7 7 7 7 7 3 7 7 7 7 7 1]
-0.622093023256
-             precision    recall  f1-score   support
-
-          1       1.00      0.62      0.77       172
-          3       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.62      0.77       172
+avg / total       1.00      0.45      0.62       172
 
 predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
@@ -1155,109 +1028,53 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
 dtype: int64
 0    1
 dtype: int64
-[3 3 1 7 7 7 7 7 1 1 1 1 2 2 1]
-0.133333333333
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          2       1.00      0.13      0.24        15
-          3       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.13      0.24        15
-
-predict#############################
-KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
-           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
-           weights='uniform')
-0    2
-dtype: int64
-0    7
-dtype: int64
-[7 1 7 7 7 7 7 1 3 7 7 7 7 7 7]
-0.0
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00        15
-          3       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00        15
-
-predict#############################
-RandomForestClassifier(bootstrap=True, class_weight='balanced',
-            criterion='gini', max_depth=None, max_features='auto',
-            max_leaf_nodes=None, min_impurity_split=1e-07,
-            min_samples_leaf=1, min_samples_split=2,
-            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
-            oob_score=False, random_state=None, verbose=0,
-            warm_start=False)
-0    2
-dtype: int64
-0    7
-dtype: int64
-[3 1 7 7 3 3 1 7 7 7 7 1 7 7 1]
-0.0
-             precision    recall  f1-score   support
-
-          1       0.00      0.00      0.00         0
-          2       0.00      0.00      0.00        15
-          3       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00        15
-
-predict#############################
-AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
-          learning_rate=1.0, n_estimators=50, random_state=None)
-0    2
-dtype: int64
-0    7
-dtype: int64
-[2 2 6 7 7 7 2 7 7 1 7 7 3 3 7]
+[2 1 1 1 1 1 7 1 1 1 1 1 2 2 7]
 0.2
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
           2       1.00      0.20      0.33        15
-          3       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
 avg / total       1.00      0.20      0.33        15
 
 predict#############################
-GaussianNB(priors=None)
+KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights='uniform')
 0    2
 dtype: int64
 0    7
 dtype: int64
-[3 3 7 7 2 2 7 2 7 7 7 7 2 2 6]
-0.333333333333
-             precision    recall  f1-score   support
-
-          2       1.00      0.33      0.50        15
-          3       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.33      0.50        15
-
-predict#############################
-DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
-            max_features=None, max_leaf_nodes=None,
-            min_impurity_split=1e-07, min_samples_leaf=1,
-            min_samples_split=2, min_weight_fraction_leaf=0.0,
-            presort=False, random_state=None, splitter='best')
-0    2
-dtype: int64
-0    7
-dtype: int64
-[7 7 7 7 7 7 7 7 7 7 7 3 7 7 7]
+[4 1 1 6 7 7 1 7 7 7 7 7 7 7 7]
 0.0
              precision    recall  f1-score   support
 
+          1       0.00      0.00      0.00         0
+          2       0.00      0.00      0.00        15
+          4       0.00      0.00      0.00         0
+          6       0.00      0.00      0.00         0
+          7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00        15
+
+predict#############################
+RandomForestClassifier(bootstrap=True, class_weight='balanced',
+            criterion='gini', max_depth=None, max_features='auto',
+            max_leaf_nodes=None, min_impurity_split=1e-07,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+0    2
+dtype: int64
+0    7
+dtype: int64
+[1 3 7 7 1 3 7 7 7 7 7 1 1 1 7]
+0.0
+             precision    recall  f1-score   support
+
+          1       0.00      0.00      0.00         0
           2       0.00      0.00      0.00        15
           3       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
@@ -1265,6 +1082,37 @@ dtype: int64
 avg / total       0.00      0.00      0.00        15
 
 predict#############################
+AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+0    2
+dtype: int64
+0    7
+dtype: int64
+[7 7 7 7 7 7 7 7 7 7 7 7 7 7 7]
+0.0
+             precision    recall  f1-score   support
+
+          2       0.00      0.00      0.00        15
+          7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00        15
+
+predict#############################
+GaussianNB(priors=None)
+0    2
+dtype: int64
+0    2
+dtype: int64
+[2 2 6 6 2 2 2 2 6 6 6 2 2 2 6]
+0.6
+             precision    recall  f1-score   support
+
+          2       1.00      0.60      0.75        15
+          6       0.00      0.00      0.00         0
+
+avg / total       1.00      0.60      0.75        15
+
+predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
           penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
@@ -1273,16 +1121,16 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
 dtype: int64
 0    4
 dtype: int64
-[1 7 7 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 7 7 7 7 7 7 7]
-0.0
+[1 7 7 4 4 7 4 4 4 4 4 4 4 4 4 3 4 4 4 7 7 7 7 7 7 7]
+0.0384615384615
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
-          3       0.00      0.00      0.00        26
+          3       1.00      0.04      0.07        26
           4       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
-avg / total       0.00      0.00      0.00        26
+avg / total       1.00      0.04      0.07        26
 
 predict#############################
 KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
@@ -1292,17 +1140,16 @@ KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
 dtype: int64
 0    4
 dtype: int64
-[1 7 3 4 4 3 4 4 4 4 4 4 4 4 4 7 4 4 4 7 7 7 7 7 6 3]
-0.115384615385
+[1 7 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 7 1 7 7 7 7]
+0.0384615384615
              precision    recall  f1-score   support
 
           1       0.00      0.00      0.00         0
-          3       1.00      0.12      0.21        26
+          3       1.00      0.04      0.07        26
           4       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.12      0.21        26
+avg / total       1.00      0.04      0.07        26
 
 predict#############################
 RandomForestClassifier(bootstrap=True, class_weight='balanced',
@@ -1314,49 +1161,50 @@ RandomForestClassifier(bootstrap=True, class_weight='balanced',
             warm_start=False)
 0    3
 dtype: int64
-0    7
+0    4
 dtype: int64
-[7 7 7 3 3 3 3 4 4 4 4 4 4 4 3 3 3 4 4 7 7 7 7 7 7 7]
-0.269230769231
+[7 7 7 4 3 3 4 4 4 4 4 4 4 4 4 4 3 3 4 7 1 7 7 7 7 3]
+0.192307692308
              precision    recall  f1-score   support
 
-          3       1.00      0.27      0.42        26
+          1       0.00      0.00      0.00         0
+          3       1.00      0.19      0.32        26
           4       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.27      0.42        26
+avg / total       1.00      0.19      0.32        26
 
 predict#############################
 AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
           learning_rate=1.0, n_estimators=50, random_state=None)
 0    3
 dtype: int64
-0    4
+0    7
 dtype: int64
-[7 7 7 4 3 7 3 4 4 4 4 4 4 4 4 4 4 4 4 7 7 7 7 7 7 7]
-0.0769230769231
-             precision    recall  f1-score   support
-
-          3       1.00      0.08      0.14        26
-          4       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       1.00      0.08      0.14        26
-
-predict#############################
-GaussianNB(priors=None)
-0    3
-dtype: int64
-0    4
-dtype: int64
-[7 7 5 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 7 7 7 7 7 5]
+[7 7 7 7 7 7 4 4 4 4 4 4 4 4 4 4 4 7 4 7 7 7 7 7 7 7]
 0.0
              precision    recall  f1-score   support
 
           3       0.00      0.00      0.00        26
           4       0.00      0.00      0.00         0
-          5       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00        26
+
+predict#############################
+GaussianNB(priors=None)
+0    3
+dtype: int64
+0    5
+dtype: int64
+[6 2 2 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 6 6 6 6 6 6]
+0.0
+             precision    recall  f1-score   support
+
+          2       0.00      0.00      0.00         0
+          3       0.00      0.00      0.00        26
+          5       0.00      0.00      0.00         0
+          6       0.00      0.00      0.00         0
 
 avg / total       0.00      0.00      0.00        26
 
@@ -1370,16 +1218,15 @@ DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
 dtype: int64
 0    7
 dtype: int64
-[7 7 7 3 5 7 5 4 4 4 4 4 4 4 5 5 5 4 4 7 7 7 7 7 7 7]
-0.0384615384615
+[7 7 7 3 5 5 5 3 3 3 7 7 3 3 5 5 5 7 3 7 7 7 7 7 7 7]
+0.269230769231
              precision    recall  f1-score   support
 
-          3       1.00      0.04      0.07        26
-          4       0.00      0.00      0.00         0
+          3       1.00      0.27      0.42        26
           5       0.00      0.00      0.00         0
           7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.04      0.07        26
+avg / total       1.00      0.27      0.42        26
 
 predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
@@ -1390,17 +1237,16 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
 dtype: int64
 0    4
 dtype: int64
-[4 7 7 4 4 4 3 7 7 4 2 7 7 7 7 7 7 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+[4 7 7 4 4 3 3 7 7 7 7 7 7 7 7 7 7 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
  4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
-0.775862068966
+0.741379310345
              precision    recall  f1-score   support
 
-          2       0.00      0.00      0.00         0
           3       0.00      0.00      0.00         0
-          4       1.00      0.78      0.87        58
+          4       1.00      0.74      0.85        58
           7       0.00      0.00      0.00         0
 
-avg / total       1.00      0.78      0.87        58
+avg / total       1.00      0.74      0.85        58
 
 predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
@@ -1429,67 +1275,12 @@ KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
 dtype: int64
 0    4
 dtype: int64
-[4 4 4 4 2 4 7 7 7 7 2]
-0.0
-             precision    recall  f1-score   support
-
-          2       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
-          5       0.00      0.00      0.00        11
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00        11
-
-predict#############################
-RandomForestClassifier(bootstrap=True, class_weight='balanced',
-            criterion='gini', max_depth=None, max_features='auto',
-            max_leaf_nodes=None, min_impurity_split=1e-07,
-            min_samples_leaf=1, min_samples_split=2,
-            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
-            oob_score=False, random_state=None, verbose=0,
-            warm_start=False)
-0    5
-dtype: int64
-0    4
-dtype: int64
-[4 4 4 4 4 4 7 7 7 7 7]
-0.0
-             precision    recall  f1-score   support
-
-          4       0.00      0.00      0.00         0
-          5       0.00      0.00      0.00        11
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00        11
-
-predict#############################
-AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
-          learning_rate=1.0, n_estimators=50, random_state=None)
-0    5
-dtype: int64
-0    4
-dtype: int64
-[4 4 4 4 4 4 6 7 7 7 7]
-0.0
-             precision    recall  f1-score   support
-
-          4       0.00      0.00      0.00         0
-          5       0.00      0.00      0.00        11
-          6       0.00      0.00      0.00         0
-          7       0.00      0.00      0.00         0
-
-avg / total       0.00      0.00      0.00        11
-
-predict#############################
-GaussianNB(priors=None)
-0    5
-dtype: int64
-0    4
-dtype: int64
-[4 4 4 4 4 4 7 7 7 7 5]
+[4 4 4 4 3 4 5 7 7 7 2]
 0.0909090909091
              precision    recall  f1-score   support
 
+          2       0.00      0.00      0.00         0
+          3       0.00      0.00      0.00         0
           4       0.00      0.00      0.00         0
           5       1.00      0.09      0.17        11
           7       0.00      0.00      0.00         0
@@ -1497,17 +1288,18 @@ dtype: int64
 avg / total       1.00      0.09      0.17        11
 
 predict#############################
-DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
-            max_features=None, max_leaf_nodes=None,
-            min_impurity_split=1e-07, min_samples_leaf=1,
-            min_samples_split=2, min_weight_fraction_leaf=0.0,
-            presort=False, random_state=None, splitter='best')
+RandomForestClassifier(bootstrap=True, class_weight='balanced',
+            criterion='gini', max_depth=None, max_features='auto',
+            max_leaf_nodes=None, min_impurity_split=1e-07,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
 0    5
 dtype: int64
 0    4
-1    7
 dtype: int64
-[4 4 4 4 4 3 7 7 7 7 7]
+[4 4 4 4 4 4 7 7 7 7 3]
 0.0
              precision    recall  f1-score   support
 
@@ -1519,80 +1311,42 @@ dtype: int64
 avg / total       0.00      0.00      0.00        11
 
 predict#############################
+AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+0    5
+dtype: int64
+0    7
+dtype: int64
+[7 4 4 4 4 4 7 7 7 7 7]
+0.0
+             precision    recall  f1-score   support
+
+          4       0.00      0.00      0.00         0
+          5       0.00      0.00      0.00        11
+          7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00        11
+
+predict#############################
+GaussianNB(priors=None)
+0    5
+dtype: int64
+0    5
+dtype: int64
+[5 5 5 5 5 5 6 6 6 6 5]
+0.636363636364
+             precision    recall  f1-score   support
+
+          5       1.00      0.64      0.78        11
+          6       0.00      0.00      0.00         0
+
+avg / total       1.00      0.64      0.78        11
+
+predict#############################
 LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
           penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
           verbose=0, warm_start=False)
-0    6
-dtype: int64
-0    4
-dtype: int64
-[4 4 4]
-0.0
-             precision    recall  f1-score   support
-
-          4       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         3
-
-avg / total       0.00      0.00      0.00         3
-
-predict#############################
-KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
-           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
-           weights='uniform')
-0    6
-dtype: int64
-0    4
-dtype: int64
-[4 4 4]
-0.0
-             precision    recall  f1-score   support
-
-          4       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         3
-
-avg / total       0.00      0.00      0.00         3
-
-predict#############################
-RandomForestClassifier(bootstrap=True, class_weight='balanced',
-            criterion='gini', max_depth=None, max_features='auto',
-            max_leaf_nodes=None, min_impurity_split=1e-07,
-            min_samples_leaf=1, min_samples_split=2,
-            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
-            oob_score=False, random_state=None, verbose=0,
-            warm_start=False)
-0    6
-dtype: int64
-0    4
-dtype: int64
-[3 4 4]
-0.0
-             precision    recall  f1-score   support
-
-          3       0.00      0.00      0.00         0
-          4       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         3
-
-avg / total       0.00      0.00      0.00         3
-
-predict#############################
-AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
-          learning_rate=1.0, n_estimators=50, random_state=None)
-0    6
-dtype: int64
-0    4
-dtype: int64
-[4 4 4]
-0.0
-             precision    recall  f1-score   support
-
-          4       0.00      0.00      0.00         0
-          6       0.00      0.00      0.00         3
-
-avg / total       0.00      0.00      0.00         3
-
-predict#############################
-GaussianNB(priors=None)
 0    6
 dtype: int64
 0    4
@@ -1608,6 +1362,78 @@ dtype: int64
 avg / total       0.00      0.00      0.00         3
 
 predict#############################
+KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights='uniform')
+0    6
+dtype: int64
+0    4
+dtype: int64
+[4 4 5]
+0.0
+             precision    recall  f1-score   support
+
+          4       0.00      0.00      0.00         0
+          5       0.00      0.00      0.00         0
+          6       0.00      0.00      0.00         3
+
+avg / total       0.00      0.00      0.00         3
+
+predict#############################
+RandomForestClassifier(bootstrap=True, class_weight='balanced',
+            criterion='gini', max_depth=None, max_features='auto',
+            max_leaf_nodes=None, min_impurity_split=1e-07,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=20, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+0    6
+dtype: int64
+0    3
+dtype: int64
+[3 3 5]
+0.0
+             precision    recall  f1-score   support
+
+          3       0.00      0.00      0.00         0
+          5       0.00      0.00      0.00         0
+          6       0.00      0.00      0.00         3
+
+avg / total       0.00      0.00      0.00         3
+
+predict#############################
+AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+0    6
+dtype: int64
+0    7
+dtype: int64
+[7 4 7]
+0.0
+             precision    recall  f1-score   support
+
+          4       0.00      0.00      0.00         0
+          6       0.00      0.00      0.00         3
+          7       0.00      0.00      0.00         0
+
+avg / total       0.00      0.00      0.00         3
+
+predict#############################
+GaussianNB(priors=None)
+0    6
+dtype: int64
+0    5
+dtype: int64
+[5 5 5]
+0.0
+             precision    recall  f1-score   support
+
+          5       0.00      0.00      0.00         0
+          6       0.00      0.00      0.00         3
+
+avg / total       0.00      0.00      0.00         3
+
+predict#############################
 DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
             max_features=None, max_leaf_nodes=None,
             min_impurity_split=1e-07, min_samples_leaf=1,
@@ -1615,13 +1441,13 @@ DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
             presort=False, random_state=None, splitter='best')
 0    6
 dtype: int64
-0    3
+0    5
 dtype: int64
-[3 3 7]
+[5 5 7]
 0.0
              precision    recall  f1-score   support
 
-          3       0.00      0.00      0.00         0
+          5       0.00      0.00      0.00         0
           6       0.00      0.00      0.00         3
           7       0.00      0.00      0.00         0
 
@@ -1636,14 +1462,15 @@ LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
 dtype: int64
 0    7
 dtype: int64
-[4 4 4 4 4 4 4 7 7 7 7 7 7 7 4 4 4 4 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7
- 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7]
-0.810344827586
+[4 4 4 4 4 4 4 7 7 7 7 7 7 7 4 4 4 4 7 7 7 7 1 7 7 7 1 7 7 7 7 7 7 7 7 7 7
+ 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 1 7 7 7 7]
+0.758620689655
              precision    recall  f1-score   support
 
+          1       0.00      0.00      0.00         0
           4       0.00      0.00      0.00         0
-          7       1.00      0.81      0.90        58
+          7       1.00      0.76      0.86        58
 
-avg / total       1.00      0.81      0.90        58
+avg / total       1.00      0.76      0.86        58
 
-result:0.375
+result:0.625

@@ -223,7 +223,7 @@ def Task1():
 			train = trains[trains['label']==c]
 			feature = train.drop(['sample', 'label'], axis=1)
 			target = train['label']
-			feature, target = extract_features(feature, target, 600)
+			feature, target = extract_features(feature, target, 520)
 			if len(features) == 0:
 				features = feature
 				targets = target
@@ -243,9 +243,9 @@ def Task1():
 			trues += Test1(classifiers,feature,target)
 		print 'result:' +str(trues/8.)
 def Task2():
+	'''
 	features = []
 	targets  = []
-	'''
 	for i in xrange(1,3):
                 trains = Preprocessing('data/'+str(i)+'.csv',False,i)
 		for c in xrange(2,8):
@@ -263,21 +263,25 @@ def Task2():
 	'''
 	for i in xrange(13,16):
 		tests = Preprocessing('data/'+str(i)+'.csv',False,i)
-		for c in xrange(2,8):
+		for c in xrange(2,7):
+			_fig,_axes = plt.subplots(nrows=3, ncols=1, figsize=(20, 9), squeeze=False)
+			
                         point = tests[tests['label']==c].index[0]
-			test = tests.iloc[point-800:point+800,:]
+			test = tests.iloc[point-1000:point+1000,:]
 			features = test.drop(['sample', 'label'], axis=1)
-			#features = test['m']
+			#features = test[['m']]
+			#_axes[0,0].plot(features[:])
+			targets = test['label']
+			features, targets = extract_features(features, targets, 3)
+			#_axes[1,0].plot(features[:])
+			print '#####'
+			Q_ifm, P_ifm, Pcp_ifm = offcd.offline_changepoint_detection(features,partial(offcd.const_prior, l=(len(features)+1)),offcd.ifm_obs_log_likelihood,truncate=-20)
+			Q_full, P_full, Pcp_full = offcd.offline_changepoint_detection(features,partial(offcd.const_prior, l=(len(features)+1)),offcd.fullcov_obs_log_likelihood, truncate=-20)
+
 			Q, P, Pcp = offcd.offline_changepoint_detection(features, partial(offcd.const_prior, l=(len(features)+1)), offcd.gaussian_obs_log_likelihood, truncate=-40)
-			print Pcp
-			#fig, ax = plt.subplots(figsize=[18, 16])
-			#ax = fig.add_subplot(2, 1, 1)
-			#ax.set_xlim(min(features), max(features))
-			#ax.set_ylim(min(features), max(features))
-			#ax.plot(features[:])
-			#ax = fig.add_subplot(2, 1, 2, sharex=ax)
-			#ax.set_xlim(min(features), max(features))
-			plt.plot(np.exp(Pcp).sum(0))
+			_axes[0,0].plot(np.exp(Pcp_ifm).sum(0))
+			_axes[1,0].plot(np.exp(Pcp_full).sum(0))
+			_axes[2,0].plot(np.exp(Pcp).sum(0))
 			plt.show()
 
 def Task3():

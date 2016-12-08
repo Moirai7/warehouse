@@ -11,6 +11,8 @@ from sklearn.metrics import classification_report,accuracy_score
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
+import bayesian as offcd
+from functools import partial
 pd.options.mode.chained_assignment = None
 
 
@@ -243,6 +245,7 @@ def Task1():
 def Task2():
 	features = []
 	targets  = []
+	'''
 	for i in xrange(1,3):
                 trains = Preprocessing('data/'+str(i)+'.csv',False,i)
 		for c in xrange(2,8):
@@ -256,26 +259,26 @@ def Task2():
 			else:
 				features=np.append(features,feature,axis=0)
 				targets =np.append(targets,target,axis=0)
-	X = np.column_stack([features])
-	from hmmlearn.hmm import GaussianHMM,MultinomialHMM
-	hm = GaussianHMM(n_components=7)#,transmat_prior = transmat, covariance_type="diag")
-	hm.fit(X)
-	hidden = hm.predict(X)
-	print hidden
-	print targets
-	print classification_report(targets, hidden)
+	offcd.offline_changepoint_detection(features, partial(offcd.const_prior, l=(len(features)+1)), offcd.gaussian_obs_log_likelihood, truncate=-40)
+	'''
 	for i in xrange(13,16):
 		tests = Preprocessing('data/'+str(i)+'.csv',False,i)
 		for c in xrange(2,8):
                         point = tests[tests['label']==c].index[0]
-			test = tests.iloc[point-10:point+10,:]
-			feature = test.drop(['sample', 'label'], axis=1)
-			target = test['label']
-			hidden_states = hm.predict(np.column_stack([feature]))
-			print target
-			print hidden_states
-			print classification_report(target, hidden_states)
-	
+			test = tests.iloc[point-800:point+800,:]
+			features = test.drop(['sample', 'label'], axis=1)
+			#features = test['m']
+			Q, P, Pcp = offcd.offline_changepoint_detection(features, partial(offcd.const_prior, l=(len(features)+1)), offcd.gaussian_obs_log_likelihood, truncate=-40)
+			print Pcp
+			#fig, ax = plt.subplots(figsize=[18, 16])
+			#ax = fig.add_subplot(2, 1, 1)
+			#ax.set_xlim(min(features), max(features))
+			#ax.set_ylim(min(features), max(features))
+			#ax.plot(features[:])
+			#ax = fig.add_subplot(2, 1, 2, sharex=ax)
+			#ax.set_xlim(min(features), max(features))
+			plt.plot(np.exp(Pcp).sum(0))
+			plt.show()
 
 def Task3():
 	features = []

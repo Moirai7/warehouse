@@ -241,15 +241,40 @@ def Task1():
 			trues += Test1(classifiers,feature,target)
 		print 'result:' +str(trues/8.)
 def Task2():
-	for i in xrange(1,13):
+	features = []
+	targets  = []
+	for i in xrange(1,3):
                 trains = Preprocessing('data/'+str(i)+'.csv',False,i)
-		feature = trains.drop(['sample', 'label'], axis=1)
-                target = trains['label']
+		for c in xrange(2,8):
+			point = trains[trains['label']==c].index[0]
+			train = trains.iloc[point-10:point+10,:]
+			feature = train.drop(['sample', 'label'], axis=1)
+                	target = train['label']
+			if len(features)==0:
+				features = feature
+				targets = target
+			else:
+				features=np.append(features,feature,axis=0)
+				targets =np.append(targets,target,axis=0)
+	X = np.column_stack([features])
+	from hmmlearn.hmm import GaussianHMM,MultinomialHMM
+	hm = GaussianHMM(n_components=7)#,transmat_prior = transmat, covariance_type="diag")
+	hm.fit(X)
+	hidden = hm.predict(X)
+	print hidden
+	print targets
+	print classification_report(targets, hidden)
 	for i in xrange(13,16):
 		tests = Preprocessing('data/'+str(i)+'.csv',False,i)
-		feature = tests.drop(['sample', 'label'], axis=1)
-		target = tests['label']
-		
+		for c in xrange(2,8):
+                        point = tests[tests['label']==c].index[0]
+			test = tests.iloc[point-10:point+10,:]
+			feature = test.drop(['sample', 'label'], axis=1)
+			target = test['label']
+			hidden_states = hm.predict(np.column_stack([feature]))
+			print target
+			print hidden_states
+			print classification_report(target, hidden_states)
 	
 
 def Task3():
@@ -287,6 +312,6 @@ if __name__ == '__main__':
 		print 'painting ... This may take a while, please wait'
 		plt.show()
 
-	Task1()
-	#Task2()	
+	#Task1()
+	Task2()	
 	#Task3()	

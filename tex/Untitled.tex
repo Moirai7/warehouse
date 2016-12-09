@@ -59,7 +59,7 @@
                 		\State $data \gets data \cup $\Call{Preprocessing}{i}
 			\For{$i = 1 \to 7$}
 				\State $d \gets data[label=i]$
-				\State $feature,target$ = \Call{extract\_features}{$d[x,y...], d[label], 10$}
+				\State $feature,target$ = \Call{extract\_features}{$d[x,y...], d[label], 520$}
 				\State $features \gets features \cup feature$
 				\State $targets \gets targets \cup target$
 			\EndFor
@@ -68,7 +68,7 @@
 		\For{$i = 13 \to 15$}
                 		\State $data \gets data \cup $\Call{Preprocessing}{i}
 			\For{$i = 1 \to 7$}
-				\State $feature,target$ = \Call{extract\_features}{$data[label==i][x,y...], data[label=i][label], 10$}
+				\State $feature,target$ = \Call{extract\_features}{$data[label=i][x,y...], data[label=i][label], 520$}
 				\State \Call{Test}{classifiers,feature,target}
 			\EndFor
 		\EndFor

@@ -5,3 +5,4 @@ sudo sudo apt-get install python-matplotlib ipython ipython-notebook
 sudo apt-get install python-pandas python-sympy python-nose
 sudo pip install scipy
 sudo pip install scikit-learn
+sudo pip install decorator

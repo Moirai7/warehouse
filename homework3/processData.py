@@ -134,20 +134,26 @@ def min_max_mean(series):
 		return (0,0,0)
 	return (min_max_sum/float(min(len(mins), len(maxs))),max(maxs)-min(mins),len(mins)+len(maxs))
 
-def extract_features(data, y, window_len):#num_windows):
+def extract_features(data, y, window_len,task2=False):#num_windows):
 	i = 0
 	#window_len = len(data)/(num_windows/2)
-	num_windows = len(data)/(window_len/2)
+	if task2:
+		num_windows = len(data)-window_len+1
+	else:
+		num_windows = len(data)/(window_len/2)
 	#print 'num_windows = 208, window_len = ' , str(len(data)/(208/2))
 	#print 'now num_windows = '+ str(num_windows)+', window_len = '+str(window_len)
 	features = []
 	targets = []
 	for n in range(num_windows):
 		win = data[i:i+window_len]
-		try:
-			target = int(y[i:i+window_len].mode())
-		except:
-			target = int(y[i:i+window_len])
+		if task2:
+			target = y.iloc[i]
+		else:
+			try:
+				target = int(y[i:i+window_len].mode())
+			except:
+				target = int(y[i:i+window_len])
 		targets.append(target)
 		for c in data.columns:
 			s = np.array(win[c])
@@ -162,7 +168,10 @@ def extract_features(data, y, window_len):#num_windows):
 			new_features = [rms_val, min_max, mean, std, skew, kurtosis,peak,peaknum,coefficients,logpower]
 			#new_features = [rms_val, min_max, mean, std]
 			features.append(new_features)
-		i += window_len/2
+		if (task2):
+			i += 1
+		else:
+			i += window_len/2
 	features = np.array(features)
 	features.shape = num_windows, 120#48#72
 	targets = np.array(targets)
@@ -203,14 +212,25 @@ def Test2(classifiers,X_test,y_test,index):
 		print y_test
 		print accuracy_score(y_test,y_pred)
 		print classification_report(y_test, y_pred)
-		point = np.where(y_test == index)[0][0]
-		ppred = np.where(y_pred == index)[0][0] if len(np.where(y_pred == index)[0])!=0 else 0
-		print ppred
+		point = np.where(y_test == index)[0]
+		if len(point)!=0:
+			point = point[len(point)-1]
+		else:
+			point = -1
 		print point
+		if len(np.where(y_pred == index)[0])!=0:
+			ppred = np.where(y_pred == index)[0]
+		else:
+			ppred = [0]
+		if len(ppred)!=0:
+			ppred = ppred[len(ppred)-1]
+		else:
+			ppred = -1
+		print ppred
 		print np.where(y_test == index)
 		print np.where(y_pred == index)
 		if point == ppred:
-			print 'point '+str(point+2)+' is the turn point!'
+			print 'point '+str(point)+' is the turn point!'
 			return 1
 	return 0
 
@@ -243,23 +263,42 @@ def Task1():
 			trues += Test1(classifiers,feature,target)
 		print 'result:' +str(trues/8.)
 def Task2():
-	'''
-	features = []
-	targets  = []
-	for i in xrange(1,3):
-                trains = Preprocessing('data/'+str(i)+'.csv',False,i)
-		for c in xrange(2,8):
-			point = trains[trains['label']==c].index[0]
-			train = trains.iloc[point-10:point+10,:]
+	trains = []
+	tests = []
+	for i in xrange(1,13):
+		trains.append(Preprocessing('data/'+str(i)+'.csv',False,i))
+	for i in xrange(13,16):
+		tests.append(Preprocessing('data/'+str(i)+'.csv',False,i))
+	for c in xrange(2,8):
+		features = []
+		targets = []
+		trues = 0
+		for i in xrange(0,12):
+			point = trains[i][trains[i]['label']==c].index[0]
+			train = trains[i].iloc[point-1040:point+2080,:]
+			#train = trains[i].iloc[point-52:point+104,:]
 			feature = train.drop(['sample', 'label'], axis=1)
-                	target = train['label']
-			if len(features)==0:
-				features = feature
-				targets = target
-			else:
-				features=np.append(features,feature,axis=0)
-				targets =np.append(targets,target,axis=0)
-	offcd.offline_changepoint_detection(features, partial(offcd.const_prior, l=(len(features)+1)), offcd.gaussian_obs_log_likelihood, truncate=-40)
+			target = train['label']
+			feature, target = extract_features(feature, target, 520,True)
+			#feature, target = extract_features(feature, target, 52,True)
+			print target
+                	if len(features)==0:
+                	       features = feature
+                	       targets = target
+                	else:
+                	       features=np.append(features,feature,axis=0)
+                	       targets =np.append(targets,target,axis=0)
+		classifiers = Train(features,targets)
+		for i in xrange(0,3):
+			point = tests[i][tests[i]['label']==c].index[0]
+			test = tests[i].iloc[point-1040:point+2080,:]
+			#test = tests[i].iloc[point-52:point+104,:]
+			feature = test.drop(['sample', 'label'], axis=1)
+			target = test['label']
+			feature, target = extract_features(feature, target, 520,True)
+			trues +=Test2(classifiers,feature,target,targets[0])
+		print 'result:' +str(trues/3.)
+	
 	'''
 	for i in xrange(13,16):
 		tests = Preprocessing('data/'+str(i)+'.csv',False,i)
@@ -283,7 +322,7 @@ def Task2():
 			_axes[1,0].plot(np.exp(Pcp_full).sum(0))
 			_axes[2,0].plot(np.exp(Pcp).sum(0))
 			plt.show()
-
+	'''
 def Task3():
 	features = []
 	targets = []

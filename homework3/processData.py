@@ -11,7 +11,7 @@ from sklearn.metrics import classification_report,accuracy_score
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
-import bayesian as offcd
+#import bayesian as offcd
 from functools import partial
 pd.options.mode.chained_assignment = None
 

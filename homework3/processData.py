@@ -12,7 +12,7 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 #import bayesian as offcd
-from functools import partial
+#from functools import partial
 pd.options.mode.chained_assignment = None
 
 
